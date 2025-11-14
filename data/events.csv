@@ -1,0 +1,19 @@
+user_id,item_id,event_type,timestamp,item_name,category,rating,cooking_preference
+101,2001,view,2025-01-10 10:35:00,Wireless Mouse,electronics,4.0,none
+101,2001,purchase,2025-01-10 10:45:00,Wireless Mouse,electronics,4.0,none
+101,3005,view,2025-01-15 14:20:00,Italian Cookbook,books,5.0,italian
+101,3006,purchase,2025-01-20 16:30:00,Wireless Keyboard,electronics,4.5,none
+102,3005,view,2025-02-02 09:21:00,Cooking Book,books,3.5,french
+102,4007,purchase,2025-02-05 11:15:00,Running Shoes,sports,4.0,none
+102,5001,view,2025-02-10 13:45:00,Yoga Mat,sports,4.2,none
+103,4007,purchase,2025-03-05 15:10:00,Running Shoes,sports,4.8,none
+103,4008,view,2025-03-05 15:12:00,Smartwatch,electronics,3.8,none
+103,6001,purchase,2025-03-08 10:20:00,Bluetooth Headphones,electronics,4.5,none
+104,3007,view,2025-03-10 12:30:00,Mexican Cookbook,books,4.7,mexican
+104,3008,purchase,2025-03-12 18:00:00,Asian Fusion Cookbook,books,5.0,asian
+105,2002,view,2025-03-15 09:10:00,Gaming Mouse,electronics,4.3,none
+105,7001,purchase,2025-03-18 15:30:00,Mechanical Keyboard,electronics,4.9,none
+106,3009,view,2025-03-20 16:45:00,Vegan Cookbook,books,4.1,vegan
+106,3010,purchase,2025-03-22 19:20:00,Healthy Cooking,books,4.6,healthy
+107,4009,view,2025-03-25 08:15:00,Fitness Tracker,electronics,4.4,none
+107,4010,purchase,2025-03-28 12:00:00,Running Watch,electronics,4.7,none

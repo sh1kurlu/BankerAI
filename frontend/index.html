@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CustomerAI FastAPI Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <h1>CustomerAI</h1>
+        <p>FastAPI-powered recommendations with constructive feedback and visualizations.</p>
+      </header>
+
+      <section class="controls">
+        <div class="field">
+          <label for="user-id">User ID</label>
+          <input id="user-id" type="text" placeholder="e.g. 101" />
+        </div>
+        <div class="field">
+          <label for="k">Number of recommendations</label>
+          <input id="k" type="number" value="5" min="1" max="20" />
+        </div>
+        <button id="btn-recommend">Get recommendations</button>
+        <button id="btn-visualizations">Show Visualizations</button>
+      </section>
+
+      <section id="status" class="status"></section>
+      <section id="results" class="results"></section>
+      
+      <!-- Visualization Section -->
+      <section id="visualizations" class="visualizations" style="display: none;">
+        <h2>Data Visualizations</h2>
+        <div class="viz-controls">
+          <button id="btn-score-dist">Score Distribution</button>
+          <button id="btn-category-dist">Category Distribution</button>
+          <button id="btn-user-prefs">User Preferences</button>
+          <button id="btn-rec-strength">Recommendation Strength</button>
+        </div>
+        <div id="viz-container" class="viz-container">
+          <canvas id="viz-chart"></canvas>
+        </div>
+      </section>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
