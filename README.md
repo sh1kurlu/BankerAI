@@ -36,20 +36,49 @@ An AI-powered business intelligence platform that analyzes customer data to prov
 
 1. **Clone or download the project**
 ```bash
-cd /Users/meh2/CustomerAI/BankerAI
+cd /Users/meh2/Applications/BankerAI/BankerAI
 ```
 
 2. **Install dependencies**
 ```bash
-pip install flask flask-cors pandas numpy
+pip install -r requirements.txt
 ```
 
-3. **Start the complete system**
+### Running with Streamlit (Recommended)
+
+**Streamlit provides a modern, interactive web interface with all features and visualizations:**
+
+1. **Run the Streamlit app**
+```bash
+streamlit run streamlit_app.py
+```
+
+Or use the helper script:
+```bash
+python run_streamlit.py
+```
+
+2. **Access the dashboard**
+The app will automatically open in your browser at `http://localhost:8501`
+
+**Streamlit Features:**
+- ✅ Interactive customer analysis
+- ✅ Beautiful visualizations (Plotly charts)
+- ✅ Customer persona analysis
+- ✅ Predictive analytics
+- ✅ AI-powered recommendations
+- ✅ Business recommendations
+- ✅ Real-time data processing
+- ✅ Responsive design
+
+### Alternative: Running with Flask/HTML Dashboard
+
+1. **Start the complete system**
 ```bash
 python start_analytics.py
 ```
 
-4. **Access the dashboard**
+2. **Access the dashboard**
 Open your browser and navigate to: `http://localhost:8080/analytics_dashboard.html`
 
 ## 📊 Data Structure
