@@ -8,7 +8,7 @@ class Settings:
     debug: bool = True
     host: str = "127.0.0.1"
     port: int = 8000
-    data_path: str = "customerai/data/events.csv"
+    data_path: str = "data/events.csv"
 
 
 settings = Settings()

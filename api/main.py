@@ -9,10 +9,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from customerai.config.settings import settings
-from customerai.core.preprocessor import load_events, build_interaction_matrix
-from customerai.core.model_engine import RecommenderEngine
-from customerai.core.feedback_engine import FeedbackEngine
+from config.settings import settings
+from core.preprocessor import load_events, build_interaction_matrix
+from core.model_engine import RecommenderEngine
+from core.feedback_engine import FeedbackEngine
+from core.ai_behavioral_engine import AIBehavioralEngine
 
 
 app = FastAPI(
@@ -34,6 +35,7 @@ events_df = load_events(settings.data_path)
 R, user_to_idx, idx_to_user, item_to_idx, idx_to_item = build_interaction_matrix(events_df)
 engine = RecommenderEngine.from_dataframe(events_df, R, user_to_idx, idx_to_user, item_to_idx, idx_to_item)
 feedback_engine = FeedbackEngine(events_df)
+ai_behavioral_engine = AIBehavioralEngine(events_df)
 
 
 class RecommendRequest(BaseModel):
@@ -59,6 +61,20 @@ class VisualizationData(BaseModel):
     data: Dict[str, Any]
     title: str
     description: str
+
+
+class AIBehavioralAnalysisRequest(BaseModel):
+    user_id: str
+    k: int = 5
+
+
+class AIBehavioralAnalysisResponse(BaseModel):
+    user_id: str
+    recommendations: List[Dict[str, Any]]
+    user_summary: Dict[str, Any]
+    predicted_actions: List[Dict[str, Any]]
+    persona: Dict[str, Any]
+    analytics_data: Dict[str, Any]
 
 
 @app.get("/api/health")
@@ -200,3 +216,20 @@ async def get_recommendation_strength():
         title="Recommendation Strength Analysis",
         description="Relationship between number of recommendations and average scores by user"
     )
+
+
+@app.post("/api/ai-behavioral-analysis", response_model=AIBehavioralAnalysisResponse)
+async def ai_behavioral_analysis(req: AIBehavioralAnalysisRequest):
+    """Get comprehensive AI behavioral analysis for a user."""
+    user_id = req.user_id.strip()
+    k = req.k
+    
+    # Generate comprehensive AI analysis
+    ai_output = ai_behavioral_engine.get_comprehensive_ai_output(user_id, k)
+    
+    # Convert numpy types to Python native types for JSON serialization
+    import json
+    json_str = json.dumps(ai_output, default=str)
+    ai_output_clean = json.loads(json_str)
+    
+    return AIBehavioralAnalysisResponse(**ai_output_clean)
