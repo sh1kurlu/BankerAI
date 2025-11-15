@@ -131,6 +131,8 @@
         
         let currentProduct = null;
         let currentCategory = '';
+        let viewStartTime = null;
+        let timeTrackingInterval = null;
 
         // Initialize product detail page
         document.addEventListener('DOMContentLoaded', function() {
@@ -157,10 +159,19 @@
             
             currentCategory = currentProduct.category;
             
-            // Track product view
+            // Track product view with time tracking
+            viewStartTime = Date.now();
             if (typeof trackProductView === 'function') {
-                trackProductView(currentProduct);
+                trackProductView(currentProduct, 0);
             }
+            
+            // Start time tracking - send periodic updates
+            startTimeTracking();
+            
+            // Track time when leaving page
+            window.addEventListener('beforeunload', function() {
+                sendTimeSpentUpdate();
+            });
             
             // Update page content
             updateProductDetail();
@@ -174,6 +185,40 @@
             
             // Setup AI recommendations
             setupAIRecommendations();
+        }
+
+        function startTimeTracking() {
+            // Send time update every 10 seconds
+            timeTrackingInterval = setInterval(function() {
+                sendTimeSpentUpdate();
+            }, 10000);
+        }
+
+        function sendTimeSpentUpdate() {
+            if (!currentProduct || !viewStartTime) return;
+            
+            const timeSpent = Math.floor((Date.now() - viewStartTime) / 1000);
+            if (timeSpent > 0) {
+                // Send update event with time spent
+                if (typeof userTracker !== 'undefined' && userTracker.sendEvent) {
+                    const event = {
+                        user_id: userTracker.userId,
+                        item_id: currentProduct.item_id,
+                        event_type: "view",
+                        timestamp: new Date().toISOString(),
+                        time_spent_seconds: timeSpent,
+                        item_name: currentProduct.item_name,
+                        category: currentProduct.category,
+                        price: currentProduct.price,
+                        brand: currentProduct.brand,
+                        session_id: userTracker.sessionId,
+                        page_url: window.location.href,
+                        referrer: document.referrer || null,
+                        user_agent: navigator.userAgent || null
+                    };
+                    userTracker.sendEvent(event);
+                }
+            }
         }
 
         function updateProductDetail() {

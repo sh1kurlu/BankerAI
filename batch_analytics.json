@@ -1,0 +1,1931 @@
+[
+  {
+    "customer_id": 43,
+    "purchase_amount": 100,
+    "analytics": {
+      "user_id": "43",
+      "persona": {
+        "label": "High-Value Occasional",
+        "description": "Occasional but high-value customer from Tennessee - spends $100.0 on premium Outerwear",
+        "traits": [
+          "Highly satisfied (4.1/5) with product quality",
+          "Values loyalty programs and exclusive benefits",
+          "Deal-seeking premium buyer - spends $100.0 with discounts",
+          "Occasional buyer - shops only 1.0 times per year",
+          "Practical buyer - purchases Outerwear for function",
+          "Young shopper (20) - trend-conscious and experimental"
+        ]
+      },
+      "behavior_summary": {
+        "top_categories": [
+          "Outerwear"
+        ],
+        "preferred_price_range": "Ultra Premium ($100.0+)",
+        "most_active_time_window": "Afternoon (3PM-6PM) - Student Outerwear buyer from Tennessee",
+        "time_spent_patterns": "High (10-15 min) - Thoughtful Outerwear selection, quality focused",
+        "activity_trend": "Minimal Activity - 1.0 purchases/year",
+        "purchase_browse_pattern": "Browse-Heavy - Explores Outerwear but buys infrequently (1.0 low freq)",
+        "price_sensitivity_level": "Deal-Seeking Premium (uses discounts on $100.0 items)",
+        "engagement_level": "Medium - 4.1/5 rating, 15 purchases"
+      },
+      "predictive_analytics": {
+        "next_likely_action": "Browse with Intent",
+        "purchase_probability_percent": 50,
+        "category_shift_prediction": "Premium Clothing or Designer Accessories",
+        "churn_risk_percent": 45,
+        "revenue_potential": "Medium"
+      },
+      "visual_data": {
+        "category_distribution": [
+          {
+            "category": "Clothing",
+            "value": 33.3,
+            "percentage": 33.3
+          },
+          {
+            "category": "Footwear",
+            "value": 20.8,
+            "percentage": 20.8
+          },
+          {
+            "category": "Accessories",
+            "value": 16.7,
+            "percentage": 16.7
+          },
+          {
+            "category": "Outerwear",
+            "value": 29.2,
+            "percentage": 29.2
+          }
+        ],
+        "hourly_activity_heatmap": [
+          {
+            "hour": 0,
+            "activity": 0.1
+          },
+          {
+            "hour": 1,
+            "activity": 0.1
+          },
+          {
+            "hour": 2,
+            "activity": 0.1
+          },
+          {
+            "hour": 3,
+            "activity": 0.1
+          },
+          {
+            "hour": 4,
+            "activity": 0.1
+          },
+          {
+            "hour": 5,
+            "activity": 0.1
+          },
+          {
+            "hour": 6,
+            "activity": 0.2
+          },
+          {
+            "hour": 7,
+            "activity": 0.3
+          },
+          {
+            "hour": 8,
+            "activity": 0.4
+          },
+          {
+            "hour": 9,
+            "activity": 0.5
+          },
+          {
+            "hour": 10,
+            "activity": 0.6
+          },
+          {
+            "hour": 11,
+            "activity": 0.7
+          },
+          {
+            "hour": 12,
+            "activity": 0.8
+          },
+          {
+            "hour": 13,
+            "activity": 0.7
+          },
+          {
+            "hour": 14,
+            "activity": 0.6
+          },
+          {
+            "hour": 15,
+            "activity": 0.5
+          },
+          {
+            "hour": 16,
+            "activity": 0.6
+          },
+          {
+            "hour": 17,
+            "activity": 0.8
+          },
+          {
+            "hour": 18,
+            "activity": 0.9
+          },
+          {
+            "hour": 19,
+            "activity": 0.8
+          },
+          {
+            "hour": 20,
+            "activity": 0.6
+          },
+          {
+            "hour": 21,
+            "activity": 0.4
+          },
+          {
+            "hour": 22,
+            "activity": 0.2
+          },
+          {
+            "hour": 23,
+            "activity": 0.1
+          }
+        ],
+        "interest_trend": [
+          {
+            "date": "Day 1",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 2",
+            "interest_score": 0.26
+          },
+          {
+            "date": "Day 3",
+            "interest_score": 0.07
+          },
+          {
+            "date": "Day 4",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 5",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 6",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 7",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 8",
+            "interest_score": 0.01
+          },
+          {
+            "date": "Day 9",
+            "interest_score": 0.11
+          },
+          {
+            "date": "Day 10",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 11",
+            "interest_score": 0.01
+          },
+          {
+            "date": "Day 12",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 13",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 14",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 15",
+            "interest_score": 0.12
+          },
+          {
+            "date": "Day 16",
+            "interest_score": 0.02
+          },
+          {
+            "date": "Day 17",
+            "interest_score": 0.12
+          },
+          {
+            "date": "Day 18",
+            "interest_score": 0.1
+          },
+          {
+            "date": "Day 19",
+            "interest_score": 0.05
+          },
+          {
+            "date": "Day 20",
+            "interest_score": 0.1
+          },
+          {
+            "date": "Day 21",
+            "interest_score": 0.15
+          },
+          {
+            "date": "Day 22",
+            "interest_score": 0.21
+          },
+          {
+            "date": "Day 23",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 24",
+            "interest_score": 0.11
+          },
+          {
+            "date": "Day 25",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 26",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 27",
+            "interest_score": 0.07
+          },
+          {
+            "date": "Day 28",
+            "interest_score": 0.18
+          },
+          {
+            "date": "Day 29",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 30",
+            "interest_score": 0.01
+          }
+        ],
+        "conversion_funnel": [
+          {
+            "stage": "Product Views",
+            "count": 100,
+            "percentage": 100
+          },
+          {
+            "stage": "Engagement",
+            "count": 62,
+            "percentage": 62
+          },
+          {
+            "stage": "Cart Adds",
+            "count": 12,
+            "percentage": 12
+          },
+          {
+            "stage": "Purchases",
+            "count": 8,
+            "percentage": 8
+          }
+        ],
+        "retention_curve": [
+          {
+            "month": 1,
+            "retention_rate": 0.144
+          },
+          {
+            "month": 2,
+            "retention_rate": 0.137
+          },
+          {
+            "month": 3,
+            "retention_rate": 0.131
+          },
+          {
+            "month": 4,
+            "retention_rate": 0.124
+          },
+          {
+            "month": 5,
+            "retention_rate": 0.118
+          },
+          {
+            "month": 6,
+            "retention_rate": 0.112
+          },
+          {
+            "month": 7,
+            "retention_rate": 0.107
+          },
+          {
+            "month": 8,
+            "retention_rate": 0.101
+          },
+          {
+            "month": 9,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 10,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 11,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 12,
+            "retention_rate": 0.1
+          }
+        ],
+        "lifetime_value_estimate": {
+          "current_value": 1500.0,
+          "estimated_clv": 10800.0,
+          "remaining_years": 6.0,
+          "annual_projected_value": 1800.0
+        }
+      },
+      "business_recommendations": [
+        {
+          "type": "Marketing",
+          "priority": "Medium",
+          "action": "Premium Deal Strategy for Outerwear",
+          "description": "Deal-seeking premium customer spends $100.0 on Outerwear. Offer exclusive member discounts, bundle deals, and early access to sales."
+        },
+        {
+          "type": "Retention",
+          "priority": "Critical",
+          "action": "Urgent Re-engagement for Outerwear",
+          "description": "Experienced customer (15 purchases) with declining activity (1.0 freq). Immediate intervention with personalized offers, feedback survey, and Outerwear recommendations."
+        },
+        {
+          "type": "Upsell",
+          "priority": "High",
+          "action": "Luxury Outerwear Recommendations",
+          "description": "Ultra-premium customer ($100.0 avg) with high satisfaction. Recommend luxury Outerwear collections, limited editions, and exclusive designer collaborations."
+        },
+        {
+          "type": "Product",
+          "priority": "Low",
+          "action": "Satisfaction Leverage for Outerwear",
+          "description": "Satisfied customer (4.1/5) with Outerwear purchases. Request reviews, offer referral incentives, and showcase their Outerwear preferences."
+        }
+      ]
+    }
+  },
+  {
+    "customer_id": 96,
+    "purchase_amount": 100,
+    "analytics": {
+      "user_id": "96",
+      "persona": {
+        "label": "Experienced High-Value",
+        "description": "Mature customer from Missouri with 48 purchases, prefers premium Footwear items",
+        "traits": [
+          "Values loyalty programs and exclusive benefits",
+          "Deal-seeking premium buyer - spends $100.0 with discounts",
+          "Regular purchaser - shops 12.0 times per year",
+          "Highly experienced - 48 previous purchases",
+          "Quality-focused - invests in Footwear"
+        ]
+      },
+      "behavior_summary": {
+        "top_categories": [
+          "Footwear"
+        ],
+        "preferred_price_range": "Ultra Premium ($100.0+)",
+        "most_active_time_window": "Evening (5PM-8PM) - After-work Footwear shopper from Missouri",
+        "time_spent_patterns": "Very High (15-20 min) - Deep Footwear research, reads reviews, compares options",
+        "activity_trend": "Moderate Activity - 12.0 purchases/year",
+        "purchase_browse_pattern": "Balanced Shopper - Researches then buys Footwear (12.0 freq, 3.8 rating)",
+        "price_sensitivity_level": "Deal-Seeking Premium (uses discounts on $100.0 items)",
+        "engagement_level": "Medium - 3.8/5 rating, 48 purchases"
+      },
+      "predictive_analytics": {
+        "next_likely_action": "Considered Purchase",
+        "purchase_probability_percent": 70,
+        "category_shift_prediction": "Clothing or Accessories",
+        "churn_risk_percent": 0,
+        "revenue_potential": "Medium"
+      },
+      "visual_data": {
+        "category_distribution": [
+          {
+            "category": "Clothing",
+            "value": 33.3,
+            "percentage": 33.3
+          },
+          {
+            "category": "Footwear",
+            "value": 37.5,
+            "percentage": 37.5
+          },
+          {
+            "category": "Accessories",
+            "value": 16.7,
+            "percentage": 16.7
+          },
+          {
+            "category": "Outerwear",
+            "value": 12.5,
+            "percentage": 12.5
+          }
+        ],
+        "hourly_activity_heatmap": [
+          {
+            "hour": 0,
+            "activity": 0.1
+          },
+          {
+            "hour": 1,
+            "activity": 0.1
+          },
+          {
+            "hour": 2,
+            "activity": 0.1
+          },
+          {
+            "hour": 3,
+            "activity": 0.1
+          },
+          {
+            "hour": 4,
+            "activity": 0.1
+          },
+          {
+            "hour": 5,
+            "activity": 0.2
+          },
+          {
+            "hour": 6,
+            "activity": 0.3
+          },
+          {
+            "hour": 7,
+            "activity": 0.5
+          },
+          {
+            "hour": 8,
+            "activity": 0.7
+          },
+          {
+            "hour": 9,
+            "activity": 0.8
+          },
+          {
+            "hour": 10,
+            "activity": 0.9
+          },
+          {
+            "hour": 11,
+            "activity": 0.8
+          },
+          {
+            "hour": 12,
+            "activity": 0.7
+          },
+          {
+            "hour": 13,
+            "activity": 0.6
+          },
+          {
+            "hour": 14,
+            "activity": 0.5
+          },
+          {
+            "hour": 15,
+            "activity": 0.4
+          },
+          {
+            "hour": 16,
+            "activity": 0.5
+          },
+          {
+            "hour": 17,
+            "activity": 0.6
+          },
+          {
+            "hour": 18,
+            "activity": 0.7
+          },
+          {
+            "hour": 19,
+            "activity": 0.6
+          },
+          {
+            "hour": 20,
+            "activity": 0.4
+          },
+          {
+            "hour": 21,
+            "activity": 0.3
+          },
+          {
+            "hour": 22,
+            "activity": 0.2
+          },
+          {
+            "hour": 23,
+            "activity": 0.1
+          }
+        ],
+        "interest_trend": [
+          {
+            "date": "Day 1",
+            "interest_score": 0.12
+          },
+          {
+            "date": "Day 2",
+            "interest_score": 0.19
+          },
+          {
+            "date": "Day 3",
+            "interest_score": 0.34
+          },
+          {
+            "date": "Day 4",
+            "interest_score": 0.2
+          },
+          {
+            "date": "Day 5",
+            "interest_score": 0.27
+          },
+          {
+            "date": "Day 6",
+            "interest_score": 0.15
+          },
+          {
+            "date": "Day 7",
+            "interest_score": 0.18
+          },
+          {
+            "date": "Day 8",
+            "interest_score": 0.22
+          },
+          {
+            "date": "Day 9",
+            "interest_score": 0.08
+          },
+          {
+            "date": "Day 10",
+            "interest_score": 0.23
+          },
+          {
+            "date": "Day 11",
+            "interest_score": 0.34
+          },
+          {
+            "date": "Day 12",
+            "interest_score": 0.29
+          },
+          {
+            "date": "Day 13",
+            "interest_score": 0.16
+          },
+          {
+            "date": "Day 14",
+            "interest_score": 0.25
+          },
+          {
+            "date": "Day 15",
+            "interest_score": 0.37
+          },
+          {
+            "date": "Day 16",
+            "interest_score": 0.36
+          },
+          {
+            "date": "Day 17",
+            "interest_score": 0.46
+          },
+          {
+            "date": "Day 18",
+            "interest_score": 0.21
+          },
+          {
+            "date": "Day 19",
+            "interest_score": 0.49
+          },
+          {
+            "date": "Day 20",
+            "interest_score": 0.3
+          },
+          {
+            "date": "Day 21",
+            "interest_score": 0.35
+          },
+          {
+            "date": "Day 22",
+            "interest_score": 0.25
+          },
+          {
+            "date": "Day 23",
+            "interest_score": 0.27
+          },
+          {
+            "date": "Day 24",
+            "interest_score": 0.21
+          },
+          {
+            "date": "Day 25",
+            "interest_score": 0.41
+          },
+          {
+            "date": "Day 26",
+            "interest_score": 0.3
+          },
+          {
+            "date": "Day 27",
+            "interest_score": 0.12
+          },
+          {
+            "date": "Day 28",
+            "interest_score": 0.35
+          },
+          {
+            "date": "Day 29",
+            "interest_score": 0.25
+          },
+          {
+            "date": "Day 30",
+            "interest_score": 0.36
+          }
+        ],
+        "conversion_funnel": [
+          {
+            "stage": "Product Views",
+            "count": 100,
+            "percentage": 100
+          },
+          {
+            "stage": "Engagement",
+            "count": 60,
+            "percentage": 60
+          },
+          {
+            "stage": "Cart Adds",
+            "count": 16,
+            "percentage": 16
+          },
+          {
+            "stage": "Purchases",
+            "count": 10,
+            "percentage": 10
+          }
+        ],
+        "retention_curve": [
+          {
+            "month": 1,
+            "retention_rate": 0.479
+          },
+          {
+            "month": 2,
+            "retention_rate": 0.456
+          },
+          {
+            "month": 3,
+            "retention_rate": 0.435
+          },
+          {
+            "month": 4,
+            "retention_rate": 0.414
+          },
+          {
+            "month": 5,
+            "retention_rate": 0.394
+          },
+          {
+            "month": 6,
+            "retention_rate": 0.376
+          },
+          {
+            "month": 7,
+            "retention_rate": 0.358
+          },
+          {
+            "month": 8,
+            "retention_rate": 0.342
+          },
+          {
+            "month": 9,
+            "retention_rate": 0.326
+          },
+          {
+            "month": 10,
+            "retention_rate": 0.31
+          },
+          {
+            "month": 11,
+            "retention_rate": 0.296
+          },
+          {
+            "month": 12,
+            "retention_rate": 0.282
+          }
+        ],
+        "lifetime_value_estimate": {
+          "current_value": 4800.0,
+          "estimated_clv": 297216.0,
+          "remaining_years": 4.3,
+          "annual_projected_value": 69120.0
+        }
+      },
+      "business_recommendations": [
+        {
+          "type": "Marketing",
+          "priority": "Medium",
+          "action": "Premium Deal Strategy for Footwear",
+          "description": "Deal-seeking premium customer spends $100.0 on Footwear. Offer exclusive member discounts, bundle deals, and early access to sales."
+        },
+        {
+          "type": "Upsell",
+          "priority": "Medium",
+          "action": "Premium Footwear Upgrade",
+          "description": "Premium customer ($100.0 avg). Recommend higher-end Footwear products, exclusive collections, and premium brand partnerships."
+        },
+        {
+          "type": "Cross-sell",
+          "priority": "High",
+          "action": "Advanced Category Expansion beyond Footwear",
+          "description": "Highly experienced customer (48 purchases). Introduce complementary categories, lifestyle bundles, and complete outfit solutions beyond Footwear."
+        }
+      ]
+    }
+  },
+  {
+    "customer_id": 194,
+    "purchase_amount": 100,
+    "analytics": {
+      "user_id": "194",
+      "persona": {
+        "label": "Critical Long-term",
+        "description": "Experienced but critical customer from North Dakota - 29 purchases but 3.0 rating indicates quality concerns",
+        "traits": [
+          "Moderately satisfied (3.0/5) - room for improvement",
+          "Values loyalty programs and exclusive benefits",
+          "Deal-seeking premium buyer - spends $100.0 with discounts",
+          "Occasional buyer - shops only 1.0 times per year",
+          "Established customer - 29 previous purchases",
+          "Style-conscious - shops Accessories to complete looks"
+        ]
+      },
+      "behavior_summary": {
+        "top_categories": [
+          "Accessories"
+        ],
+        "preferred_price_range": "Ultra Premium ($100.0+)",
+        "most_active_time_window": "Evening (5PM-8PM) - After-work Accessories shopper from North Dakota",
+        "time_spent_patterns": "Medium (5-10 min) - Efficient Accessories shopping, knows what they want",
+        "activity_trend": "Minimal Activity - 1.0 purchases/year",
+        "purchase_browse_pattern": "Browse-Heavy - Explores Accessories but buys infrequently (1.0 low freq)",
+        "price_sensitivity_level": "Deal-Seeking Premium (uses discounts on $100.0 items)",
+        "engagement_level": "Low - 3.0/5 rating indicates dissatisfaction"
+      },
+      "predictive_analytics": {
+        "next_likely_action": "Browse with Intent",
+        "purchase_probability_percent": 50,
+        "category_shift_prediction": "Clothing or Footwear",
+        "churn_risk_percent": 55,
+        "revenue_potential": "Medium"
+      },
+      "visual_data": {
+        "category_distribution": [
+          {
+            "category": "Clothing",
+            "value": 33.3,
+            "percentage": 33.3
+          },
+          {
+            "category": "Footwear",
+            "value": 20.8,
+            "percentage": 20.8
+          },
+          {
+            "category": "Accessories",
+            "value": 33.3,
+            "percentage": 33.3
+          },
+          {
+            "category": "Outerwear",
+            "value": 12.5,
+            "percentage": 12.5
+          }
+        ],
+        "hourly_activity_heatmap": [
+          {
+            "hour": 0,
+            "activity": 0.1
+          },
+          {
+            "hour": 1,
+            "activity": 0.1
+          },
+          {
+            "hour": 2,
+            "activity": 0.1
+          },
+          {
+            "hour": 3,
+            "activity": 0.1
+          },
+          {
+            "hour": 4,
+            "activity": 0.1
+          },
+          {
+            "hour": 5,
+            "activity": 0.2
+          },
+          {
+            "hour": 6,
+            "activity": 0.3
+          },
+          {
+            "hour": 7,
+            "activity": 0.5
+          },
+          {
+            "hour": 8,
+            "activity": 0.7
+          },
+          {
+            "hour": 9,
+            "activity": 0.8
+          },
+          {
+            "hour": 10,
+            "activity": 0.9
+          },
+          {
+            "hour": 11,
+            "activity": 0.8
+          },
+          {
+            "hour": 12,
+            "activity": 0.7
+          },
+          {
+            "hour": 13,
+            "activity": 0.6
+          },
+          {
+            "hour": 14,
+            "activity": 0.5
+          },
+          {
+            "hour": 15,
+            "activity": 0.4
+          },
+          {
+            "hour": 16,
+            "activity": 0.5
+          },
+          {
+            "hour": 17,
+            "activity": 0.6
+          },
+          {
+            "hour": 18,
+            "activity": 0.7
+          },
+          {
+            "hour": 19,
+            "activity": 0.6
+          },
+          {
+            "hour": 20,
+            "activity": 0.4
+          },
+          {
+            "hour": 21,
+            "activity": 0.3
+          },
+          {
+            "hour": 22,
+            "activity": 0.2
+          },
+          {
+            "hour": 23,
+            "activity": 0.1
+          }
+        ],
+        "interest_trend": [
+          {
+            "date": "Day 1",
+            "interest_score": 0.02
+          },
+          {
+            "date": "Day 2",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 3",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 4",
+            "interest_score": 0.22
+          },
+          {
+            "date": "Day 5",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 6",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 7",
+            "interest_score": 0.12
+          },
+          {
+            "date": "Day 8",
+            "interest_score": 0.03
+          },
+          {
+            "date": "Day 9",
+            "interest_score": 0.14
+          },
+          {
+            "date": "Day 10",
+            "interest_score": 0.17
+          },
+          {
+            "date": "Day 11",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 12",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 13",
+            "interest_score": 0.07
+          },
+          {
+            "date": "Day 14",
+            "interest_score": 0.06
+          },
+          {
+            "date": "Day 15",
+            "interest_score": 0.02
+          },
+          {
+            "date": "Day 16",
+            "interest_score": 0.09
+          },
+          {
+            "date": "Day 17",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 18",
+            "interest_score": 0.22
+          },
+          {
+            "date": "Day 19",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 20",
+            "interest_score": 0.18
+          },
+          {
+            "date": "Day 21",
+            "interest_score": 0.21
+          },
+          {
+            "date": "Day 22",
+            "interest_score": 0.04
+          },
+          {
+            "date": "Day 23",
+            "interest_score": 0.07
+          },
+          {
+            "date": "Day 24",
+            "interest_score": 0.12
+          },
+          {
+            "date": "Day 25",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 26",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 27",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 28",
+            "interest_score": 0.13
+          },
+          {
+            "date": "Day 29",
+            "interest_score": 0
+          },
+          {
+            "date": "Day 30",
+            "interest_score": 0.07
+          }
+        ],
+        "conversion_funnel": [
+          {
+            "stage": "Product Views",
+            "count": 100,
+            "percentage": 100
+          },
+          {
+            "stage": "Engagement",
+            "count": 54,
+            "percentage": 54
+          },
+          {
+            "stage": "Cart Adds",
+            "count": 11,
+            "percentage": 11
+          },
+          {
+            "stage": "Purchases",
+            "count": 6,
+            "percentage": 6
+          }
+        ],
+        "retention_curve": [
+          {
+            "month": 1,
+            "retention_rate": 0.277
+          },
+          {
+            "month": 2,
+            "retention_rate": 0.264
+          },
+          {
+            "month": 3,
+            "retention_rate": 0.251
+          },
+          {
+            "month": 4,
+            "retention_rate": 0.238
+          },
+          {
+            "month": 5,
+            "retention_rate": 0.226
+          },
+          {
+            "month": 6,
+            "retention_rate": 0.215
+          },
+          {
+            "month": 7,
+            "retention_rate": 0.204
+          },
+          {
+            "month": 8,
+            "retention_rate": 0.194
+          },
+          {
+            "month": 9,
+            "retention_rate": 0.185
+          },
+          {
+            "month": 10,
+            "retention_rate": 0.176
+          },
+          {
+            "month": 11,
+            "retention_rate": 0.167
+          },
+          {
+            "month": 12,
+            "retention_rate": 0.159
+          }
+        ],
+        "lifetime_value_estimate": {
+          "current_value": 2900.0,
+          "estimated_clv": 15312.0,
+          "remaining_years": 4.4,
+          "annual_projected_value": 3480.0
+        }
+      },
+      "business_recommendations": [
+        {
+          "type": "Marketing",
+          "priority": "High",
+          "action": "Quality Improvement Focus for Accessories",
+          "description": "Customer shows dissatisfaction (3.0/5) with Accessories. Send quality survey, offer exchange, and provide North Dakota-specific customer service."
+        },
+        {
+          "type": "Marketing",
+          "priority": "Medium",
+          "action": "Premium Deal Strategy for Accessories",
+          "description": "Deal-seeking premium customer spends $100.0 on Accessories. Offer exclusive member discounts, bundle deals, and early access to sales."
+        },
+        {
+          "type": "Retention",
+          "priority": "Critical",
+          "action": "Urgent Re-engagement for Accessories",
+          "description": "Experienced customer (29 purchases) with declining activity (1.0 freq). Immediate intervention with personalized offers, feedback survey, and Accessories recommendations."
+        },
+        {
+          "type": "Upsell",
+          "priority": "Medium",
+          "action": "Premium Accessories Upgrade",
+          "description": "Premium customer ($100.0 avg). Recommend higher-end Accessories products, exclusive collections, and premium brand partnerships."
+        },
+        {
+          "type": "Cross-sell",
+          "priority": "Medium",
+          "action": "Complementary Accessories Categories",
+          "description": "Established customer (29 purchases). Introduce complementary categories that pair well with Accessories based on North Dakota preferences."
+        }
+      ]
+    }
+  },
+  {
+    "customer_id": 205,
+    "purchase_amount": 100,
+    "analytics": {
+      "user_id": "205",
+      "persona": {
+        "label": "Premium Loyalist",
+        "description": "High-value Footwear enthusiast from Arizona with strong brand loyalty and 26.0 annual purchases",
+        "traits": [
+          "Highly satisfied (4.0/5) with product quality",
+          "Values loyalty programs and exclusive benefits",
+          "Deal-seeking premium buyer - spends $100.0 with discounts",
+          "Very frequent buyer - shops 26.0 times per year",
+          "Established customer - 35 previous purchases",
+          "Quality-focused - invests in Footwear"
+        ]
+      },
+      "behavior_summary": {
+        "top_categories": [
+          "Footwear"
+        ],
+        "preferred_price_range": "Ultra Premium ($100.0+)",
+        "most_active_time_window": "Afternoon (3PM-6PM) - Student Footwear buyer from Arizona",
+        "time_spent_patterns": "Very High (15-20 min) - Deep Footwear research, reads reviews, compares options",
+        "activity_trend": "Very High Activity - 26.0 purchases/year",
+        "purchase_browse_pattern": "Purchase-Driven - High conversion for Footwear (26.0 freq, 35 prev)",
+        "price_sensitivity_level": "Deal-Seeking Premium (uses discounts on $100.0 items)",
+        "engagement_level": "High - 4.0/5 rating, 35 purchases"
+      },
+      "predictive_analytics": {
+        "next_likely_action": "Premium Purchase",
+        "purchase_probability_percent": 88,
+        "category_shift_prediction": "Designer Clothing or Premium Accessories",
+        "churn_risk_percent": 0,
+        "revenue_potential": "High"
+      },
+      "visual_data": {
+        "category_distribution": [
+          {
+            "category": "Clothing",
+            "value": 33.3,
+            "percentage": 33.3
+          },
+          {
+            "category": "Footwear",
+            "value": 37.5,
+            "percentage": 37.5
+          },
+          {
+            "category": "Accessories",
+            "value": 16.7,
+            "percentage": 16.7
+          },
+          {
+            "category": "Outerwear",
+            "value": 12.5,
+            "percentage": 12.5
+          }
+        ],
+        "hourly_activity_heatmap": [
+          {
+            "hour": 0,
+            "activity": 0.1
+          },
+          {
+            "hour": 1,
+            "activity": 0.1
+          },
+          {
+            "hour": 2,
+            "activity": 0.1
+          },
+          {
+            "hour": 3,
+            "activity": 0.1
+          },
+          {
+            "hour": 4,
+            "activity": 0.1
+          },
+          {
+            "hour": 5,
+            "activity": 0.1
+          },
+          {
+            "hour": 6,
+            "activity": 0.2
+          },
+          {
+            "hour": 7,
+            "activity": 0.3
+          },
+          {
+            "hour": 8,
+            "activity": 0.4
+          },
+          {
+            "hour": 9,
+            "activity": 0.5
+          },
+          {
+            "hour": 10,
+            "activity": 0.6
+          },
+          {
+            "hour": 11,
+            "activity": 0.7
+          },
+          {
+            "hour": 12,
+            "activity": 0.8
+          },
+          {
+            "hour": 13,
+            "activity": 0.7
+          },
+          {
+            "hour": 14,
+            "activity": 0.6
+          },
+          {
+            "hour": 15,
+            "activity": 0.5
+          },
+          {
+            "hour": 16,
+            "activity": 0.6
+          },
+          {
+            "hour": 17,
+            "activity": 0.8
+          },
+          {
+            "hour": 18,
+            "activity": 0.9
+          },
+          {
+            "hour": 19,
+            "activity": 0.8
+          },
+          {
+            "hour": 20,
+            "activity": 0.6
+          },
+          {
+            "hour": 21,
+            "activity": 0.4
+          },
+          {
+            "hour": 22,
+            "activity": 0.2
+          },
+          {
+            "hour": 23,
+            "activity": 0.1
+          }
+        ],
+        "interest_trend": [
+          {
+            "date": "Day 1",
+            "interest_score": 0.49
+          },
+          {
+            "date": "Day 2",
+            "interest_score": 0.62
+          },
+          {
+            "date": "Day 3",
+            "interest_score": 0.42
+          },
+          {
+            "date": "Day 4",
+            "interest_score": 0.69
+          },
+          {
+            "date": "Day 5",
+            "interest_score": 0.52
+          },
+          {
+            "date": "Day 6",
+            "interest_score": 0.47
+          },
+          {
+            "date": "Day 7",
+            "interest_score": 0.61
+          },
+          {
+            "date": "Day 8",
+            "interest_score": 0.52
+          },
+          {
+            "date": "Day 9",
+            "interest_score": 0.38
+          },
+          {
+            "date": "Day 10",
+            "interest_score": 0.53
+          },
+          {
+            "date": "Day 11",
+            "interest_score": 0.59
+          },
+          {
+            "date": "Day 12",
+            "interest_score": 0.42
+          },
+          {
+            "date": "Day 13",
+            "interest_score": 0.53
+          },
+          {
+            "date": "Day 14",
+            "interest_score": 0.69
+          },
+          {
+            "date": "Day 15",
+            "interest_score": 0.43
+          },
+          {
+            "date": "Day 16",
+            "interest_score": 0.42
+          },
+          {
+            "date": "Day 17",
+            "interest_score": 0.57
+          },
+          {
+            "date": "Day 18",
+            "interest_score": 0.54
+          },
+          {
+            "date": "Day 19",
+            "interest_score": 0.68
+          },
+          {
+            "date": "Day 20",
+            "interest_score": 0.53
+          },
+          {
+            "date": "Day 21",
+            "interest_score": 0.69
+          },
+          {
+            "date": "Day 22",
+            "interest_score": 0.7
+          },
+          {
+            "date": "Day 23",
+            "interest_score": 0.64
+          },
+          {
+            "date": "Day 24",
+            "interest_score": 0.39
+          },
+          {
+            "date": "Day 25",
+            "interest_score": 0.63
+          },
+          {
+            "date": "Day 26",
+            "interest_score": 0.84
+          },
+          {
+            "date": "Day 27",
+            "interest_score": 0.76
+          },
+          {
+            "date": "Day 28",
+            "interest_score": 0.47
+          },
+          {
+            "date": "Day 29",
+            "interest_score": 0.87
+          },
+          {
+            "date": "Day 30",
+            "interest_score": 0.53
+          }
+        ],
+        "conversion_funnel": [
+          {
+            "stage": "Product Views",
+            "count": 100,
+            "percentage": 100
+          },
+          {
+            "stage": "Engagement",
+            "count": 62,
+            "percentage": 62
+          },
+          {
+            "stage": "Cart Adds",
+            "count": 21,
+            "percentage": 21
+          },
+          {
+            "stage": "Purchases",
+            "count": 13,
+            "percentage": 13
+          }
+        ],
+        "retention_curve": [
+          {
+            "month": 1,
+            "retention_rate": 0.382
+          },
+          {
+            "month": 2,
+            "retention_rate": 0.366
+          },
+          {
+            "month": 3,
+            "retention_rate": 0.35
+          },
+          {
+            "month": 4,
+            "retention_rate": 0.335
+          },
+          {
+            "month": 5,
+            "retention_rate": 0.321
+          },
+          {
+            "month": 6,
+            "retention_rate": 0.307
+          },
+          {
+            "month": 7,
+            "retention_rate": 0.294
+          },
+          {
+            "month": 8,
+            "retention_rate": 0.282
+          },
+          {
+            "month": 9,
+            "retention_rate": 0.271
+          },
+          {
+            "month": 10,
+            "retention_rate": 0.26
+          },
+          {
+            "month": 11,
+            "retention_rate": 0.249
+          },
+          {
+            "month": 12,
+            "retention_rate": 0.239
+          }
+        ],
+        "lifetime_value_estimate": {
+          "current_value": 3500.0,
+          "estimated_clv": 611520.0,
+          "remaining_years": 5.6,
+          "annual_projected_value": 109200.0
+        }
+      },
+      "business_recommendations": [
+        {
+          "type": "Marketing",
+          "priority": "Medium",
+          "action": "Premium Deal Strategy for Footwear",
+          "description": "Deal-seeking premium customer spends $100.0 on Footwear. Offer exclusive member discounts, bundle deals, and early access to sales."
+        },
+        {
+          "type": "Upsell",
+          "priority": "High",
+          "action": "Luxury Footwear Recommendations",
+          "description": "Ultra-premium customer ($100.0 avg) with high satisfaction. Recommend luxury Footwear collections, limited editions, and exclusive designer collaborations."
+        },
+        {
+          "type": "Cross-sell",
+          "priority": "High",
+          "action": "Advanced Category Expansion beyond Footwear",
+          "description": "Highly experienced customer (35 purchases). Introduce complementary categories, lifestyle bundles, and complete outfit solutions beyond Footwear."
+        },
+        {
+          "type": "Product",
+          "priority": "Low",
+          "action": "Satisfaction Leverage for Footwear",
+          "description": "Satisfied customer (4.0/5) with Footwear purchases. Request reviews, offer referral incentives, and showcase their Footwear preferences."
+        },
+        {
+          "type": "Segment",
+          "priority": "High",
+          "action": "VIP Footwear Treatment",
+          "description": "Premium Footwear customer from Arizona. Offer exclusive access, personal shopping assistance, premium customer service, and early access to new Footwear collections."
+        }
+      ]
+    }
+  },
+  {
+    "customer_id": 244,
+    "purchase_amount": 100,
+    "analytics": {
+      "user_id": "244",
+      "persona": {
+        "label": "Young Active Shopper",
+        "description": "Young customer from Kentucky - highly active with 12.0 annual purchases, trendy Accessories preferences",
+        "traits": [
+          "Moderately satisfied (2.8/5) - room for improvement",
+          "Values loyalty programs and exclusive benefits",
+          "Deal-seeking premium buyer - spends $100.0 with discounts",
+          "Regular purchaser - shops 12.0 times per year",
+          "New customer - only 4 previous purchases",
+          "Style-conscious - shops Accessories to complete looks"
+        ]
+      },
+      "behavior_summary": {
+        "top_categories": [
+          "Accessories"
+        ],
+        "preferred_price_range": "Ultra Premium ($100.0+)",
+        "most_active_time_window": "Afternoon (3PM-6PM) - Student Accessories buyer from Kentucky",
+        "time_spent_patterns": "High (10-15 min) - Thoughtful Accessories selection, quality focused",
+        "activity_trend": "Moderate Activity - 12.0 purchases/year",
+        "purchase_browse_pattern": "Considered Buyer - Takes time before Accessories purchases (4 experience)",
+        "price_sensitivity_level": "Deal-Seeking Premium (uses discounts on $100.0 items)",
+        "engagement_level": "Low - 2.8/5 rating indicates dissatisfaction"
+      },
+      "predictive_analytics": {
+        "next_likely_action": "Churn Risk",
+        "purchase_probability_percent": 15,
+        "category_shift_prediction": "Fashion-forward Clothing or Trendy Footwear",
+        "churn_risk_percent": 30,
+        "revenue_potential": "Low"
+      },
+      "visual_data": {
+        "category_distribution": [
+          {
+            "category": "Clothing",
+            "value": 33.3,
+            "percentage": 33.3
+          },
+          {
+            "category": "Footwear",
+            "value": 20.8,
+            "percentage": 20.8
+          },
+          {
+            "category": "Accessories",
+            "value": 33.3,
+            "percentage": 33.3
+          },
+          {
+            "category": "Outerwear",
+            "value": 12.5,
+            "percentage": 12.5
+          }
+        ],
+        "hourly_activity_heatmap": [
+          {
+            "hour": 0,
+            "activity": 0.1
+          },
+          {
+            "hour": 1,
+            "activity": 0.1
+          },
+          {
+            "hour": 2,
+            "activity": 0.1
+          },
+          {
+            "hour": 3,
+            "activity": 0.1
+          },
+          {
+            "hour": 4,
+            "activity": 0.1
+          },
+          {
+            "hour": 5,
+            "activity": 0.1
+          },
+          {
+            "hour": 6,
+            "activity": 0.2
+          },
+          {
+            "hour": 7,
+            "activity": 0.3
+          },
+          {
+            "hour": 8,
+            "activity": 0.4
+          },
+          {
+            "hour": 9,
+            "activity": 0.5
+          },
+          {
+            "hour": 10,
+            "activity": 0.6
+          },
+          {
+            "hour": 11,
+            "activity": 0.7
+          },
+          {
+            "hour": 12,
+            "activity": 0.8
+          },
+          {
+            "hour": 13,
+            "activity": 0.7
+          },
+          {
+            "hour": 14,
+            "activity": 0.6
+          },
+          {
+            "hour": 15,
+            "activity": 0.5
+          },
+          {
+            "hour": 16,
+            "activity": 0.6
+          },
+          {
+            "hour": 17,
+            "activity": 0.8
+          },
+          {
+            "hour": 18,
+            "activity": 0.9
+          },
+          {
+            "hour": 19,
+            "activity": 0.8
+          },
+          {
+            "hour": 20,
+            "activity": 0.6
+          },
+          {
+            "hour": 21,
+            "activity": 0.4
+          },
+          {
+            "hour": 22,
+            "activity": 0.2
+          },
+          {
+            "hour": 23,
+            "activity": 0.1
+          }
+        ],
+        "interest_trend": [
+          {
+            "date": "Day 1",
+            "interest_score": 0.18
+          },
+          {
+            "date": "Day 2",
+            "interest_score": 0.28
+          },
+          {
+            "date": "Day 3",
+            "interest_score": 0.37
+          },
+          {
+            "date": "Day 4",
+            "interest_score": 0.34
+          },
+          {
+            "date": "Day 5",
+            "interest_score": 0.24
+          },
+          {
+            "date": "Day 6",
+            "interest_score": 0.04
+          },
+          {
+            "date": "Day 7",
+            "interest_score": 0.26
+          },
+          {
+            "date": "Day 8",
+            "interest_score": 0.26
+          },
+          {
+            "date": "Day 9",
+            "interest_score": 0.31
+          },
+          {
+            "date": "Day 10",
+            "interest_score": 0.33
+          },
+          {
+            "date": "Day 11",
+            "interest_score": 0.51
+          },
+          {
+            "date": "Day 12",
+            "interest_score": 0.26
+          },
+          {
+            "date": "Day 13",
+            "interest_score": 0.15
+          },
+          {
+            "date": "Day 14",
+            "interest_score": 0.46
+          },
+          {
+            "date": "Day 15",
+            "interest_score": 0.28
+          },
+          {
+            "date": "Day 16",
+            "interest_score": 0.33
+          },
+          {
+            "date": "Day 17",
+            "interest_score": 0.29
+          },
+          {
+            "date": "Day 18",
+            "interest_score": 0.25
+          },
+          {
+            "date": "Day 19",
+            "interest_score": 0.4
+          },
+          {
+            "date": "Day 20",
+            "interest_score": 0.3
+          },
+          {
+            "date": "Day 21",
+            "interest_score": 0.34
+          },
+          {
+            "date": "Day 22",
+            "interest_score": 0.25
+          },
+          {
+            "date": "Day 23",
+            "interest_score": 0.45
+          },
+          {
+            "date": "Day 24",
+            "interest_score": 0.29
+          },
+          {
+            "date": "Day 25",
+            "interest_score": 0.27
+          },
+          {
+            "date": "Day 26",
+            "interest_score": 0.34
+          },
+          {
+            "date": "Day 27",
+            "interest_score": 0.24
+          },
+          {
+            "date": "Day 28",
+            "interest_score": 0.39
+          },
+          {
+            "date": "Day 29",
+            "interest_score": 0.39
+          },
+          {
+            "date": "Day 30",
+            "interest_score": 0.31
+          }
+        ],
+        "conversion_funnel": [
+          {
+            "stage": "Product Views",
+            "count": 100,
+            "percentage": 100
+          },
+          {
+            "stage": "Engagement",
+            "count": 52,
+            "percentage": 52
+          },
+          {
+            "stage": "Cart Adds",
+            "count": 14,
+            "percentage": 14
+          },
+          {
+            "stage": "Purchases",
+            "count": 8,
+            "percentage": 8
+          }
+        ],
+        "retention_curve": [
+          {
+            "month": 1,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 2,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 3,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 4,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 5,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 6,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 7,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 8,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 9,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 10,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 11,
+            "retention_rate": 0.1
+          },
+          {
+            "month": 12,
+            "retention_rate": 0.1
+          }
+        ],
+        "lifetime_value_estimate": {
+          "current_value": 400.0,
+          "estimated_clv": 31680.0,
+          "remaining_years": 5.5,
+          "annual_projected_value": 5760.0
+        }
+      },
+      "business_recommendations": [
+        {
+          "type": "Marketing",
+          "priority": "High",
+          "action": "Quality Improvement Focus for Accessories",
+          "description": "Customer shows dissatisfaction (2.8/5) with Accessories. Send quality survey, offer exchange, and provide Kentucky-specific customer service."
+        },
+        {
+          "type": "Marketing",
+          "priority": "Medium",
+          "action": "Premium Deal Strategy for Accessories",
+          "description": "Deal-seeking premium customer spends $100.0 on Accessories. Offer exclusive member discounts, bundle deals, and early access to sales."
+        },
+        {
+          "type": "Upsell",
+          "priority": "Medium",
+          "action": "Premium Accessories Upgrade",
+          "description": "Premium customer ($100.0 avg). Recommend higher-end Accessories products, exclusive collections, and premium brand partnerships."
+        }
+      ]
+    }
+  }
+]

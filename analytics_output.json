@@ -1,0 +1,382 @@
+{
+  "user_id": "101",
+  "persona": {
+    "label": "Experienced High-Value",
+    "description": "Mature customer from South Dakota with 31 purchases, prefers premium Accessories items",
+    "traits": [
+      "Moderately satisfied (2.7/5) - room for improvement",
+      "Values loyalty programs and exclusive benefits",
+      "Deal-seeking premium buyer - spends $98.0 with discounts",
+      "Very frequent buyer - shops 26.0 times per year",
+      "Established customer - 31 previous purchases",
+      "Style-conscious - shops Accessories to complete looks"
+    ]
+  },
+  "behavior_summary": {
+    "top_categories": [
+      "Accessories"
+    ],
+    "preferred_price_range": "Ultra Premium ($98.0+)",
+    "most_active_time_window": "Morning (9AM-12PM) - Traditional Accessories shopper from South Dakota",
+    "time_spent_patterns": "Very High (15-20 min) - Deep Accessories research, reads reviews, compares options",
+    "activity_trend": "Very High Activity - 26.0 purchases/year",
+    "purchase_browse_pattern": "Balanced Shopper - Researches then buys Accessories (26.0 freq, 2.7 rating)",
+    "price_sensitivity_level": "Deal-Seeking Premium (uses discounts on $98.0 items)",
+    "engagement_level": "Low - 2.7/5 rating indicates dissatisfaction"
+  },
+  "predictive_analytics": {
+    "next_likely_action": "Churn Risk",
+    "purchase_probability_percent": 15,
+    "category_shift_prediction": "Timeless Clothing or Reliable Footwear",
+    "churn_risk_percent": 0,
+    "revenue_potential": "Medium"
+  },
+  "visual_data": {
+    "category_distribution": [
+      {
+        "category": "Clothing",
+        "value": 33.3,
+        "percentage": 33.3
+      },
+      {
+        "category": "Footwear",
+        "value": 20.8,
+        "percentage": 20.8
+      },
+      {
+        "category": "Accessories",
+        "value": 33.3,
+        "percentage": 33.3
+      },
+      {
+        "category": "Outerwear",
+        "value": 12.5,
+        "percentage": 12.5
+      }
+    ],
+    "hourly_activity_heatmap": [
+      {
+        "hour": 0,
+        "activity": 0.1
+      },
+      {
+        "hour": 1,
+        "activity": 0.1
+      },
+      {
+        "hour": 2,
+        "activity": 0.1
+      },
+      {
+        "hour": 3,
+        "activity": 0.1
+      },
+      {
+        "hour": 4,
+        "activity": 0.2
+      },
+      {
+        "hour": 5,
+        "activity": 0.4
+      },
+      {
+        "hour": 6,
+        "activity": 0.7
+      },
+      {
+        "hour": 7,
+        "activity": 0.8
+      },
+      {
+        "hour": 8,
+        "activity": 0.9
+      },
+      {
+        "hour": 9,
+        "activity": 0.8
+      },
+      {
+        "hour": 10,
+        "activity": 0.6
+      },
+      {
+        "hour": 11,
+        "activity": 0.5
+      },
+      {
+        "hour": 12,
+        "activity": 0.4
+      },
+      {
+        "hour": 13,
+        "activity": 0.3
+      },
+      {
+        "hour": 14,
+        "activity": 0.3
+      },
+      {
+        "hour": 15,
+        "activity": 0.2
+      },
+      {
+        "hour": 16,
+        "activity": 0.2
+      },
+      {
+        "hour": 17,
+        "activity": 0.1
+      },
+      {
+        "hour": 18,
+        "activity": 0.1
+      },
+      {
+        "hour": 19,
+        "activity": 0.1
+      },
+      {
+        "hour": 20,
+        "activity": 0.1
+      },
+      {
+        "hour": 21,
+        "activity": 0.1
+      },
+      {
+        "hour": 22,
+        "activity": 0.1
+      },
+      {
+        "hour": 23,
+        "activity": 0.1
+      }
+    ],
+    "interest_trend": [
+      {
+        "date": "Day 1",
+        "interest_score": 0.54
+      },
+      {
+        "date": "Day 2",
+        "interest_score": 0.45
+      },
+      {
+        "date": "Day 3",
+        "interest_score": 0.51
+      },
+      {
+        "date": "Day 4",
+        "interest_score": 0.4
+      },
+      {
+        "date": "Day 5",
+        "interest_score": 0.53
+      },
+      {
+        "date": "Day 6",
+        "interest_score": 0.36
+      },
+      {
+        "date": "Day 7",
+        "interest_score": 0.42
+      },
+      {
+        "date": "Day 8",
+        "interest_score": 0.62
+      },
+      {
+        "date": "Day 9",
+        "interest_score": 0.57
+      },
+      {
+        "date": "Day 10",
+        "interest_score": 0.49
+      },
+      {
+        "date": "Day 11",
+        "interest_score": 0.41
+      },
+      {
+        "date": "Day 12",
+        "interest_score": 0.61
+      },
+      {
+        "date": "Day 13",
+        "interest_score": 0.63
+      },
+      {
+        "date": "Day 14",
+        "interest_score": 0.6
+      },
+      {
+        "date": "Day 15",
+        "interest_score": 0.44
+      },
+      {
+        "date": "Day 16",
+        "interest_score": 0.43
+      },
+      {
+        "date": "Day 17",
+        "interest_score": 0.42
+      },
+      {
+        "date": "Day 18",
+        "interest_score": 0.55
+      },
+      {
+        "date": "Day 19",
+        "interest_score": 0.58
+      },
+      {
+        "date": "Day 20",
+        "interest_score": 0.63
+      },
+      {
+        "date": "Day 21",
+        "interest_score": 0.45
+      },
+      {
+        "date": "Day 22",
+        "interest_score": 0.82
+      },
+      {
+        "date": "Day 23",
+        "interest_score": 0.81
+      },
+      {
+        "date": "Day 24",
+        "interest_score": 0.56
+      },
+      {
+        "date": "Day 25",
+        "interest_score": 0.59
+      },
+      {
+        "date": "Day 26",
+        "interest_score": 0.49
+      },
+      {
+        "date": "Day 27",
+        "interest_score": 0.68
+      },
+      {
+        "date": "Day 28",
+        "interest_score": 0.64
+      },
+      {
+        "date": "Day 29",
+        "interest_score": 0.68
+      },
+      {
+        "date": "Day 30",
+        "interest_score": 0.75
+      }
+    ],
+    "conversion_funnel": [
+      {
+        "stage": "Product Views",
+        "count": 100,
+        "percentage": 100
+      },
+      {
+        "stage": "Engagement",
+        "count": 51,
+        "percentage": 51
+      },
+      {
+        "stage": "Cart Adds",
+        "count": 18,
+        "percentage": 18
+      },
+      {
+        "stage": "Purchases",
+        "count": 10,
+        "percentage": 10
+      }
+    ],
+    "retention_curve": [
+      {
+        "month": 1,
+        "retention_rate": 0.344
+      },
+      {
+        "month": 2,
+        "retention_rate": 0.33
+      },
+      {
+        "month": 3,
+        "retention_rate": 0.316
+      },
+      {
+        "month": 4,
+        "retention_rate": 0.302
+      },
+      {
+        "month": 5,
+        "retention_rate": 0.29
+      },
+      {
+        "month": 6,
+        "retention_rate": 0.278
+      },
+      {
+        "month": 7,
+        "retention_rate": 0.266
+      },
+      {
+        "month": 8,
+        "retention_rate": 0.256
+      },
+      {
+        "month": 9,
+        "retention_rate": 0.245
+      },
+      {
+        "month": 10,
+        "retention_rate": 0.236
+      },
+      {
+        "month": 11,
+        "retention_rate": 0.226
+      },
+      {
+        "month": 12,
+        "retention_rate": 0.218
+      }
+    ],
+    "lifetime_value_estimate": {
+      "current_value": 3038.0,
+      "estimated_clv": 189571.2,
+      "remaining_years": 2.0,
+      "annual_projected_value": 94785.6
+    }
+  },
+  "business_recommendations": [
+    {
+      "type": "Marketing",
+      "priority": "High",
+      "action": "Quality Improvement Focus for Accessories",
+      "description": "Customer shows dissatisfaction (2.7/5) with Accessories. Send quality survey, offer exchange, and provide South Dakota-specific customer service."
+    },
+    {
+      "type": "Marketing",
+      "priority": "Medium",
+      "action": "Premium Deal Strategy for Accessories",
+      "description": "Deal-seeking premium customer spends $98.0 on Accessories. Offer exclusive member discounts, bundle deals, and early access to sales."
+    },
+    {
+      "type": "Upsell",
+      "priority": "Medium",
+      "action": "Premium Accessories Upgrade",
+      "description": "Premium customer ($98.0 avg). Recommend higher-end Accessories products, exclusive collections, and premium brand partnerships."
+    },
+    {
+      "type": "Cross-sell",
+      "priority": "Medium",
+      "action": "Complementary Accessories Categories",
+      "description": "Established customer (31 purchases). Introduce complementary categories that pair well with Accessories based on South Dakota preferences."
+    }
+  ]
+}

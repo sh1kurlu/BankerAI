@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Behavior Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/recharts@2.8.0/dist/Recharts.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .control-group label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .control-group select, .control-group input {
+            padding: 10px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .control-group select:focus, .control-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.3rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .metric {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .persona-card {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .persona-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .persona-desc {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .traits-list {
+            list-style: none;
+            text-align: left;
+        }
+        
+        .traits-list li {
+            padding: 5px 0;
+            border-left: 3px solid rgba(255,255,255,0.5);
+            padding-left: 10px;
+            margin: 5px 0;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 20px;
+        }
+        
+        .recommendations-list {
+            list-style: none;
+        }
+        
+        .recommendation-item {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .rec-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .rec-type {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .rec-priority {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .priority-high {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .priority-medium {
+            background: #ffa726;
+            color: white;
+        }
+        
+        .priority-low {
+            background: #66bb6a;
+            color: white;
+        }
+        
+        .rec-action {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .rec-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+        
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>🧠 Customer Behavior Analytics Dashboard</h1>
+            <p>AI-Powered Business Intelligence for Customer Insights</p>
+        </div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="customerId">Customer ID:</label>
+                <input type="number" id="customerId" min="1" max="3900" value="101" placeholder="Enter Customer ID">
+            </div>
+            <div class="control-group">
+                <label for="analysisType">Analysis Type:</label>
+                <select id="analysisType">
+                    <option value="comprehensive">Comprehensive Analysis</option>
+                    <option value="persona">Persona Only</option>
+                    <option value="behavior">Behavior Only</option>
+                    <option value="predictive">Predictive Only</option>
+                </select>
+            </div>
+            <button class="btn" onclick="analyzeCustomer()">🔍 Analyze Customer</button>
+            <button class="btn" onclick="loadSampleData()">📊 Load Sample Data</button>
+        </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            🔄 Analyzing customer data... Please wait.
+        </div>
+        
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <div id="summaryStats" class="summary-stats"></div>
+        
+        <div id="dashboardContent" class="dashboard-grid"></div>
+        
+        <div id="chartsSection" style="display: none;">
+            <div class="card">
+                <h3>📈 Analytics Charts</h3>
+                <div class="dashboard-grid">
+                    <div>
+                        <h4>Category Distribution</h4>
+                        <div class="chart-container">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Hourly Activity Pattern</h4>
+                        <div class="chart-container">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Interest Trend (30 Days)</h4>
+                        <div class="chart-container">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Conversion Funnel</h4>
+                        <div class="chart-container">
+                            <canvas id="funnelChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAnalytics = null;
+        let charts = {};
+        
+        async function analyzeCustomer() {
+            const customerId = document.getElementById('customerId').value;
+            const analysisType = document.getElementById('analysisType').value;
+            
+            if (!customerId) {
+                showError('Please enter a Customer ID');
+                return;
+            }
+            
+            showLoading(true);
+            hideError();
+            
+            try {
+                // In a real implementation, this would call your Python backend
+                // For demo purposes, we'll use the generated JSON data
+                const response = await fetch(`http://localhost:5001/api/analyze/${customerId}?type=${analysisType}`);
+                
+                if (!response.ok) {
+                    throw new Error('Analysis failed');
+                }
+                
+                const data = await response.json();
+                currentAnalytics = data;
+                displayAnalytics(data);
+                
+            } catch (error) {
+                // For demo, load sample data if API fails
+                await loadSampleData();
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        async function loadSampleData() {
+            showLoading(true);
+            hideError();
+            
+            try {
+                // Load the generated analytics output
+                const response = await fetch('/analytics_output.json');
+                
+                if (!response.ok) {
+                    throw new Error('Could not load sample data');
+                }
+                
+                const data = await response.json();
+                currentAnalytics = data;
+                displayAnalytics(data);
+                
+            } catch (error) {
+                // Fallback to hardcoded sample data
+                const sampleData = {
+                    "user_id": "101",
+                    "persona": {
+                        "label": "Premium Loyalist",
+                        "description": "High-value customer with strong brand loyalty and frequent purchases",
+                        "traits": ["More critical of product quality", "Values convenience and loyalty programs", "Price-conscious and deal-seeking", "Regular and consistent purchaser", "Experienced and established customer", "Willing to pay premium prices"]
+                    },
+                    "behavior_summary": {
+                        "top_categories": ["Accessories"],
+                        "preferred_price_range": "Premium ($80+)",
+                        "most_active_time_window": "Morning (9AM-12PM)",
+                        "time_spent_patterns": "Low (<5 minutes per session)",
+                        "activity_trend": "Highly Active",
+                        "purchase_browse_pattern": "Purchase-focused (high conversion)",
+                        "price_sensitivity_level": "High",
+                        "engagement_level": "Low"
+                    },
+                    "predictive_analytics": {
+                        "next_likely_action": "Churn Risk",
+                        "purchase_probability_percent": 20,
+                        "category_shift_prediction": "Clothing or Footwear",
+                        "churn_risk_percent": 30,
+                        "revenue_potential": "High"
+                    },
+                    "visual_data": {
+                        "category_distribution": [{"category": "Clothing", "value": 33.3, "percentage": 33.3}, {"category": "Footwear", "value": 20.8, "percentage": 20.8}, {"category": "Accessories", "value": 33.3, "percentage": 33.3}, {"category": "Outerwear", "value": 12.5, "percentage": 12.5}],
+                        "hourly_activity_heatmap": Array.from({length: 24}, (_, i) => ({hour: i, activity: Math.random() * 0.9 + 0.1})),
+                        "interest_trend": Array.from({length: 30}, (_, i) => ({date: `Day ${i+1}`, interest_score: Math.random() * 0.8 + 0.2})),
+                        "conversion_funnel": [{"stage": "Product Views", "count": 100, "percentage": 100}, {"stage": "Engagement", "count": 51, "percentage": 51}, {"stage": "Cart Adds", "count": 18, "percentage": 18}, {"stage": "Purchases", "count": 10, "percentage": 10}],
+                        "retention_curve": Array.from({length: 12}, (_, i) => ({month: i+1, retention_rate: Math.max(0.1, 0.9 - i * 0.05)})),
+                        "lifetime_value_estimate": {"current_value": 3038.0, "estimated_clv": 189571.2, "remaining_years": 2.0, "annual_projected_value": 94785.6}
+                    },
+                    "business_recommendations": [
+                        {"type": "Marketing", "priority": "High", "action": "Quality Improvement Focus", "description": "Customer shows dissatisfaction. Focus on product quality improvements and follow-up surveys."},
+                        {"type": "Upsell", "priority": "Medium", "action": "Premium Product Recommendations", "description": "Premium customer. Recommend higher-end products and exclusive collections."},
+                        {"type": "Cross-sell", "priority": "Medium", "action": "Category Expansion", "description": "Established customer. Introduce complementary categories based on purchase history."},
+                        {"type": "Segment", "priority": "High", "action": "VIP Treatment", "description": "Offer exclusive access, personal shopping assistance, and premium customer service."}
+                    ]
+                };
+                
+                currentAnalytics = sampleData;
+                displayAnalytics(sampleData);
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        function displayAnalytics(data) {
+            displaySummaryStats(data);
+            displayDashboard(data);
+            displayCharts(data);
+        }
+        
+        function displaySummaryStats(data) {
+            const summaryHtml = `
+                <div class="stat-card">
+                    <div class="stat-value">${data.predictive_analytics.purchase_probability_percent}%</div>
+                    <div class="stat-label">Purchase Probability</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${data.predictive_analytics.churn_risk_percent}%</div>
+                    <div class="stat-label">Churn Risk</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$${data.visual_data.lifetime_value_estimate.current_value.toLocaleString()}</div>
+                    <div class="stat-label">Current Value</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$${data.visual_data.lifetime_value_estimate.estimated_clv.toLocaleString()}</div>
+                    <div class="stat-label">Estimated CLV</div>
+                </div>
+            `;
+            document.getElementById('summaryStats').innerHTML = summaryHtml;
+        }
+        
+        function displayDashboard(data) {
+            const dashboardHtml = `
+                <div class="card persona-card">
+                    <h3>👤 Customer Persona</h3>
+                    <div class="persona-title">${data.persona.label}</div>
+                    <div class="persona-desc">${data.persona.description}</div>
+                    <h4>Key Traits:</h4>
+                    <ul class="traits-list">
+                        ${data.persona.traits.map(trait => `<li>${trait}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 Behavior Summary</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <div class="metric-value">${data.behavior_summary.top_categories[0]}</div>
+                            <div class="metric-label">Top Category</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${data.behavior_summary.preferred_price_range}</div>
+                            <div class="metric-label">Price Range</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${data.behavior_summary.activity_trend}</div>
+                            <div class="metric-label">Activity Level</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${data.behavior_summary.engagement_level}</div>
+                            <div class="metric-label">Engagement</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <p><strong>Active Time:</strong> ${data.behavior_summary.most_active_time_window}</p>
+                        <p><strong>Time Spent:</strong> ${data.behavior_summary.time_spent_patterns}</p>
+                        <p><strong>Pattern:</strong> ${data.behavior_summary.purchase_browse_pattern}</p>
+                        <p><strong>Price Sensitivity:</strong> ${data.behavior_summary.price_sensitivity_level}</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>🔮 Predictive Analytics</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <div class="metric-value">${data.predictive_analytics.next_likely_action}</div>
+                            <div class="metric-label">Next Action</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${data.predictive_analytics.purchase_probability_percent}%</div>
+                            <div class="metric-label">Purchase Prob.</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${data.predictive_analytics.revenue_potential}</div>
+                            <div class="metric-label">Revenue Potential</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${data.predictive_analytics.category_shift_prediction}</div>
+                            <div class="metric-label">Category Shift</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>💡 Business Recommendations</h3>
+                    <ul class="recommendations-list">
+                        ${data.business_recommendations.map(rec => `
+                            <li class="recommendation-item">
+                                <div class="rec-header">
+                                    <span class="rec-type">${rec.type}</span>
+                                    <span class="rec-priority priority-${rec.priority.toLowerCase()}">${rec.priority}</span>
+                                </div>
+                                <div class="rec-action">${rec.action}</div>
+                                <div class="rec-desc">${rec.description}</div>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+            
+            document.getElementById('dashboardContent').innerHTML = dashboardHtml;
+        }
+        
+        function displayCharts(data) {
+            document.getElementById('chartsSection').style.display = 'block';
+            
+            // Destroy existing charts
+            Object.values(charts).forEach(chart => {
+                if (chart) chart.destroy();
+            });
+            
+            // Category Distribution Chart
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+            charts.category = new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.visual_data.category_distribution.map(item => item.category),
+                    datasets: [{
+                        data: data.visual_data.category_distribution.map(item => item.value),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Hourly Activity Chart
+            const activityCtx = document.getElementById('activityChart').getContext('2d');
+            charts.activity = new Chart(activityCtx, {
+                type: 'line',
+                data: {
+                    labels: data.visual_data.hourly_activity_heatmap.map(item => `${item.hour}:00`),
+                    datasets: [{
+                        label: 'Activity Level',
+                        data: data.visual_data.hourly_activity_heatmap.map(item => item.activity),
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1
+                        }
+                    }
+                }
+            });
+            
+            // Interest Trend Chart
+            const trendCtx = document.getElementById('trendChart').getContext('2d');
+            charts.trend = new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: data.visual_data.interest_trend.map(item => item.date),
+                    datasets: [{
+                        label: 'Interest Score',
+                        data: data.visual_data.interest_trend.map(item => item.interest_score),
+                        borderColor: '#f093fb',
+                        backgroundColor: 'rgba(240, 147, 251, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Conversion Funnel Chart
+            const funnelCtx = document.getElementById('funnelChart').getContext('2d');
+            charts.funnel = new Chart(funnelCtx, {
+                type: 'bar',
+                data: {
+                    labels: data.visual_data.conversion_funnel.map(item => item.stage),
+                    datasets: [{
+                        label: 'Count',
+                        data: data.visual_data.conversion_funnel.map(item => item.count),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+        
+        // Load sample data on page load
+        window.addEventListener('load', () => {
+            loadSampleData();
+        });
+        
+        // Allow Enter key to trigger analysis
+        document.getElementById('customerId').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                analyzeCustomer();
+            }
+        });
+    </script>
+</body>
+</html>
