@@ -84,6 +84,7 @@ class TrackEventRequest(BaseModel):
     item_id: Optional[str] = None
     event_type: str
     timestamp: str
+    time_spent_seconds: Optional[float] = None
     item_name: Optional[str] = None
     category: Optional[str] = None
     price: Optional[float] = None
@@ -283,16 +284,36 @@ async def track_event(event: TrackEventRequest):
         # Convert to DataFrame row and append to events
         event_dict = event.dict()
         
+        # Normalize event_type to lowercase (matching preprocessor expectations)
+        if 'event_type' in event_dict:
+            event_dict['event_type'] = event_dict['event_type'].lower()
+            # Map add_to_cart to cart for consistency with preprocessor
+            if event_dict['event_type'] == 'add_to_cart':
+                event_dict['event_type'] = 'cart'
+        
+        # Ensure required fields are present
+        required_fields = ['user_id', 'item_id', 'event_type', 'timestamp']
+        for field in required_fields:
+            if field not in event_dict or event_dict[field] is None:
+                raise ValueError(f"Missing required field: {field}")
+        
         # Add to global events dataframe
-        global events_df
+        global events_df, engine, R, user_to_idx, idx_to_user, item_to_idx, idx_to_item
+        
         new_row = pd.DataFrame([event_dict])
         events_df = pd.concat([events_df, new_row], ignore_index=True)
         
-        # Update engines with new data
-        ai_behavioral_engine.events_df = events_df.copy()
-        ai_behavioral_engine.events_df['timestamp'] = pd.to_datetime(ai_behavioral_engine.events_df['timestamp'])
+        # Rebuild interaction matrix and update engines
+        R, user_to_idx, idx_to_user, item_to_idx, idx_to_item = build_interaction_matrix(events_df)
+        engine = RecommenderEngine.from_dataframe(events_df, R, user_to_idx, idx_to_user, item_to_idx, idx_to_item)
         
-        return {"status": "success", "message": "Event tracked successfully"}
+        # Update AI behavioral engine
+        ai_behavioral_engine.events_df = events_df.copy()
+        ai_behavioral_engine.events_df['timestamp'] = pd.to_datetime(ai_behavioral_engine.events_df['timestamp'], format='mixed', errors='coerce')
+        ai_behavioral_engine.user_profiles = ai_behavioral_engine._build_user_profiles()
+        ai_behavioral_engine.item_profiles = ai_behavioral_engine._build_item_profiles()
+        
+        return {"status": "success", "message": "Event tracked successfully", "total_events": len(events_df)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error tracking event: {str(e)}")
 
@@ -301,21 +322,29 @@ async def track_event(event: TrackEventRequest):
 async def track_events_batch(batch: TrackEventsBatchRequest):
     """Track multiple user events in batch for better performance."""
     try:
-        global events_df
+        global events_df, engine, R, user_to_idx, idx_to_user, item_to_idx, idx_to_item
         
         # Convert batch events to DataFrame
         if batch.events:
+            # Normalize event types
+            for event in batch.events:
+                if 'event_type' in event:
+                    event['event_type'] = event['event_type'].lower()
+                    if event['event_type'] == 'add_to_cart':
+                        event['event_type'] = 'cart'
+            
             new_rows = pd.DataFrame(batch.events)
             events_df = pd.concat([events_df, new_rows], ignore_index=True)
             
-            # Update engines with new data
+            # Rebuild interaction matrix and update engines
+            R, user_to_idx, idx_to_user, item_to_idx, idx_to_item = build_interaction_matrix(events_df)
+            engine = RecommenderEngine.from_dataframe(events_df, R, user_to_idx, idx_to_user, item_to_idx, idx_to_item)
+            
+            # Update AI behavioral engine
             ai_behavioral_engine.events_df = events_df.copy()
             ai_behavioral_engine.events_df['timestamp'] = pd.to_datetime(ai_behavioral_engine.events_df['timestamp'], format='mixed', errors='coerce')
-            
-            # Rebuild profiles if we have enough new data
-            if len(batch.events) > 5:
-                ai_behavioral_engine.user_profiles = ai_behavioral_engine._build_user_profiles()
-                ai_behavioral_engine.item_profiles = ai_behavioral_engine._build_item_profiles()
+            ai_behavioral_engine.user_profiles = ai_behavioral_engine._build_user_profiles()
+            ai_behavioral_engine.item_profiles = ai_behavioral_engine._build_item_profiles()
         
         return {
             "status": "success", 

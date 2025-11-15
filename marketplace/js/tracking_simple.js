@@ -47,19 +47,21 @@ class UserTracker {
     }
 
     // Track product view
-    trackProductView(product) {
+    trackProductView(product, timeSpentSeconds = 0) {
         const event = {
             user_id: this.userId,
-            event_type: "view_product",
+            event_type: "view",
             timestamp: new Date().toISOString(),
             item_id: product.item_id,
             item_name: product.item_name,
             category: product.category,
             price: product.price,
             brand: product.brand,
+            time_spent_seconds: timeSpentSeconds,
             session_id: this.sessionId,
             page_url: window.location.href,
-            referrer: document.referrer
+            referrer: document.referrer || null,
+            user_agent: navigator.userAgent || null
         };
 
         this.sendEvent(event);
@@ -70,7 +72,7 @@ class UserTracker {
     trackProductClick(product) {
         const event = {
             user_id: this.userId,
-            event_type: "click_product",
+            event_type: "click",
             timestamp: new Date().toISOString(),
             item_id: product.item_id,
             item_name: product.item_name,
@@ -79,7 +81,8 @@ class UserTracker {
             brand: product.brand,
             session_id: this.sessionId,
             page_url: window.location.href,
-            referrer: document.referrer
+            referrer: document.referrer || null,
+            user_agent: navigator.userAgent || null
         };
 
         this.sendEvent(event);

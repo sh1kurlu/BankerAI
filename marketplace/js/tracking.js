@@ -47,23 +47,22 @@ class UserTracker {
     }
 
     // Track product view
-    trackProductView(product) {
+    trackProductView(product, timeSpentSeconds = 0) {
         const event = {
             user_id: this.userId,
             item_id: product.item_id,
-            event_type: "view_product",
+            event_type: "view",
             timestamp: new Date().toISOString(),
+            time_spent_seconds: timeSpentSeconds,
             item_name: product.item_name,
             category: product.category,
             price: product.price,
             brand: product.brand,
             session_id: this.sessionId,
             page_url: window.location.href,
-            referrer: document.referrer
+            referrer: document.referrer || null,
+            user_agent: navigator.userAgent || null
         };
-
-// Make tracking functions available globally
-window.trackingFunctions = trackingFunctions;
         
         this.sendEvent(event);
         console.log('Product view tracked:', event);
@@ -74,7 +73,7 @@ window.trackingFunctions = trackingFunctions;
         const event = {
             user_id: this.userId,
             item_id: product.item_id,
-            event_type: "click_product",
+            event_type: "click",
             timestamp: new Date().toISOString(),
             item_name: product.item_name,
             category: product.category,
@@ -82,8 +81,10 @@ window.trackingFunctions = trackingFunctions;
             brand: product.brand,
             session_id: this.sessionId,
             page_url: window.location.href,
+            referrer: document.referrer || null,
             element: "product_card",
-            position: "grid"
+            position: "grid",
+            user_agent: navigator.userAgent || null
         };
         
         this.sendEvent(event);
@@ -104,7 +105,8 @@ window.trackingFunctions = trackingFunctions;
             quantity: quantity,
             session_id: this.sessionId,
             page_url: window.location.href,
-            cart_total: this.getCartTotal()
+            referrer: document.referrer || null,
+            user_agent: navigator.userAgent || null
         };
         
         this.sendEvent(event);
@@ -113,26 +115,28 @@ window.trackingFunctions = trackingFunctions;
 
     // Track purchase
     trackPurchase(cartItems, totalAmount) {
-        const event = {
-            user_id: this.userId,
-            event_type: "purchase",
-            timestamp: new Date().toISOString(),
-            items: cartItems.map(item => ({
+        // Track each item in the purchase separately
+        cartItems.forEach(item => {
+            const event = {
+                user_id: this.userId,
                 item_id: item.item_id,
+                event_type: "purchase",
+                timestamp: new Date().toISOString(),
                 item_name: item.item_name,
                 category: item.category,
                 price: item.price,
                 brand: item.brand,
-                quantity: item.quantity
-            })),
-            total_amount: totalAmount,
-            session_id: this.sessionId,
-            page_url: window.location.href,
-            payment_method: "simulated"
-        };
+                quantity: item.quantity,
+                session_id: this.sessionId,
+                page_url: window.location.href,
+                referrer: document.referrer || null,
+                user_agent: navigator.userAgent || null
+            };
+            
+            this.sendEvent(event);
+        });
         
-        this.sendEvent(event);
-        console.log('Purchase tracked:', event);
+        console.log('Purchase tracked:', { items: cartItems.length, total: totalAmount });
     }
 
     // Track search
@@ -277,7 +281,7 @@ const trackingFunctions = {
 };
 
 // Global tracking functions for easy access
-window.trackProductView = (product) => userTracker.trackProductView(product);
+window.trackProductView = (product, timeSpentSeconds) => userTracker.trackProductView(product, timeSpentSeconds);
 window.trackProductClick = (product) => userTracker.trackProductClick(product);
 window.trackAddToCart = (product, quantity) => userTracker.trackAddToCart(product, quantity);
 window.trackPurchase = (cartItems, totalAmount) => userTracker.trackPurchase(cartItems, totalAmount);
@@ -285,3 +289,6 @@ window.trackSearch = (query, resultsCount) => userTracker.trackSearch(query, res
 window.trackCategoryView = (category, productCount) => userTracker.trackCategoryView(category, productCount);
 window.trackPageView = (pageName, additionalData) => userTracker.trackPageView(pageName, additionalData);
 window.trackRecommendationInteraction = (recommendation, action) => userTracker.trackRecommendationInteraction(recommendation, action);
+
+// Expose userTracker globally for time tracking
+window.userTracker = userTracker;
