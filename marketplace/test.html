@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketPlace Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8">MarketPlace Test Page</h1>
+        
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Test Components</h2>
+            
+            <!-- Test Product Data -->
+            <div class="mb-4">
+                <h3 class="text-lg font-medium mb-2">Product Data Test</h3>
+                <div id="product-test" class="text-sm text-gray-600"></div>
+            </div>
+            
+            <!-- Test Cart -->
+            <div class="mb-4">
+                <h3 class="text-lg font-medium mb-2">Cart Test</h3>
+                <button id="test-cart-btn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Test Cart Functionality
+                </button>
+                <div id="cart-test" class="mt-2 text-sm text-gray-600"></div>
+            </div>
+            
+            <!-- Test Tracking -->
+            <div class="mb-4">
+                <h3 class="text-lg font-medium mb-2">Tracking Test</h3>
+                <button id="test-tracking-btn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                    Test Tracking Functionality
+                </button>
+                <div id="tracking-test" class="mt-2 text-sm text-gray-600"></div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="text-center">
+            <a href="index.html" class="text-blue-600 hover:text-blue-800">Go to Main Marketplace</a>
+        </div>
+    </div>
+
+    <!-- Load scripts in order -->
+    <script src="data/products.js"></script>
+    <script src="js/tracking.js"></script>
+    <script src="js/cart.js"></script>
+    
+    <script>
+        // Test product data
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Test page loaded');
+            
+            // Test product data
+            const productTest = document.getElementById('product-test');
+            if (typeof products !== 'undefined' && products.length > 0) {
+                productTest.innerHTML = `✅ Products loaded: ${products.length} items<br>
+                    First product: ${products[0].item_name} ($${products[0].price})`;
+            } else {
+                productTest.innerHTML = '❌ Products data not loaded';
+            }
+            
+            // Test cart functionality
+            document.getElementById('test-cart-btn').addEventListener('click', function() {
+                const cartTest = document.getElementById('cart-test');
+                try {
+                    const cart = new ShoppingCart();
+                    cartTest.innerHTML = `✅ ShoppingCart class instantiated successfully`;
+                } catch (error) {
+                    cartTest.innerHTML = `❌ Cart error: ${error.message}`;
+                }
+            });
+            
+            // Test tracking functionality
+            document.getElementById('test-tracking-btn').addEventListener('click', function() {
+                const trackingTest = document.getElementById('tracking-test');
+                try {
+                    const tracker = new UserTracker();
+                    trackingTest.innerHTML = `✅ UserTracker class instantiated successfully<br>
+                        User ID: ${tracker.userId}`;
+                } catch (error) {
+                    trackingTest.innerHTML = `❌ Tracking error: ${error.message}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

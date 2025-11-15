@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Tracking Test</title>
+</head>
+<body>
+    <h1>Simple Tracking Test</h1>
+    <div id="output"></div>
+    
+    <script src="js/tracking_simple.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const output = document.getElementById('output');
+            
+            if (typeof userTracker !== 'undefined') {
+                output.innerHTML = `<p>✅ Simple tracker loaded successfully</p>
+                    <p>User ID: ${userTracker.userId}</p>
+                    <p>Session ID: ${userTracker.sessionId}</p>`;
+            } else {
+                output.innerHTML = '<p>❌ Simple tracker not loaded</p>';
+            }
+        });
+    </script>
+</body>
+</html>

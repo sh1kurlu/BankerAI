@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Authentication System</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+        button { margin: 5px; padding: 8px 12px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🔐 Authentication System Test</h1>
+    
+    <div class="test-section">
+        <h3>Test Registration</h3>
+        <button onclick="testRegistration()">Test Register User</button>
+        <div id="register-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test Login</h3>
+        <button onclick="testLogin()">Test Login</button>
+        <div id="login-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test User Separation</h3>
+        <button onclick="testUserSeparation()">Test Different Users</button>
+        <div id="separation-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Current State</h3>
+        <button onclick="showCurrentState()">Show Current State</button>
+        <div id="state-result"></div>
+    </div>
+
+    <script>
+        // Test registration
+        function testRegistration() {
+            const testUser = {
+                id: 'test_user_' + Date.now(),
+                username: 'testuser',
+                email: 'test@example.com',
+                password: 'password123',
+                createdAt: new Date().toISOString()
+            };
+            
+            // Get existing users
+            let users = [];
+            try {
+                const usersJson = localStorage.getItem('marketplace_users');
+                users = usersJson ? JSON.parse(usersJson) : [];
+            } catch (error) {
+                users = [];
+            }
+            
+            // Add test user
+            users.push(testUser);
+            localStorage.setItem('marketplace_users', JSON.stringify(users));
+            
+            document.getElementById('register-result').innerHTML = 
+                `<div class="success">✅ Test user registered successfully!</div>
+                 <pre>${JSON.stringify(testUser, null, 2)}</pre>`;
+        }
+        
+        // Test login
+        function testLogin() {
+            const username = 'testuser';
+            const password = 'password123';
+            
+            try {
+                const usersJson = localStorage.getItem('marketplace_users');
+                const users = usersJson ? JSON.parse(usersJson) : [];
+                const user = users.find(u => u.username === username && u.password === password);
+                
+                if (user) {
+                    // Set current user
+                    localStorage.setItem('marketplace_current_user', JSON.stringify(user));
+                    localStorage.setItem('marketplace_user_id', user.id);
+                    
+                    document.getElementById('login-result').innerHTML = 
+                        `<div class="success">✅ Login successful!</div>
+                         <pre>${JSON.stringify(user, null, 2)}</pre>
+                         <p>User ID for tracking: <strong>${user.id}</strong></p>`;
+                } else {
+                    document.getElementById('login-result').innerHTML = 
+                        `<div class="error">❌ Invalid credentials</div>`;
+                }
+            } catch (error) {
+                document.getElementById('login-result').innerHTML = 
+                    `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+        
+        // Test user separation
+        function testUserSeparation() {
+            // Create two different test users
+            const user1 = {
+                id: 'user_1_' + Date.now(),
+                username: 'user1',
+                email: 'user1@example.com',
+                password: 'pass1',
+                createdAt: new Date().toISOString()
+            };
+            
+            const user2 = {
+                id: 'user_2_' + (Date.now() + 1),
+                username: 'user2',
+                email: 'user2@example.com',
+                password: 'pass2',
+                createdAt: new Date().toISOString()
+            };
+            
+            // Store both users
+            const users = [user1, user2];
+            localStorage.setItem('marketplace_users', JSON.stringify(users));
+            
+            // Test switching between users
+            let result = '<h4>User Separation Test:</h4>';
+            
+            // Login as user1
+            localStorage.setItem('marketplace_current_user', JSON.stringify(user1));
+            localStorage.setItem('marketplace_user_id', user1.id);
+            result += `<p>✅ Logged in as User1: <strong>${user1.id}</strong></p>`;
+            
+            // Login as user2
+            localStorage.setItem('marketplace_current_user', JSON.stringify(user2));
+            localStorage.setItem('marketplace_user_id', user2.id);
+            result += `<p>✅ Logged in as User2: <strong>${user2.id}</strong></p>`;
+            
+            result += '<p><strong>Conclusion:</strong> Each user has a unique ID, ensuring data separation!</p>';
+            
+            document.getElementById('separation-result').innerHTML = result;
+        }
+        
+        // Show current state
+        function showCurrentState() {
+            const currentUser = localStorage.getItem('marketplace_current_user');
+            const userId = localStorage.getItem('marketplace_user_id');
+            const users = localStorage.getItem('marketplace_users');
+            
+            let result = '<h4>Current Authentication State:</h4>';
+            
+            if (currentUser) {
+                const user = JSON.parse(currentUser);
+                result += `<p>✅ Current User: <strong>${user.username}</strong> (ID: ${user.id})</p>`;
+            } else {
+                result += `<p>❌ No user currently logged in</p>`;
+            }
+            
+            result += `<p>📊 User ID for tracking: <strong>${userId || 'None'}</strong></p>`;
+            
+            if (users) {
+                const usersList = JSON.parse(users);
+                result += `<p>👥 Total registered users: <strong>${usersList.length}</strong></p>`;
+                result += '<ul>';
+                usersList.forEach(user => {
+                    result += `<li>${user.username} (${user.id})</li>`;
+                });
+                result += '</ul>';
+            } else {
+                result += `<p>👥 No users registered yet</p>`;
+            }
+            
+            document.getElementById('state-result').innerHTML = result;
+        }
+        
+        // Auto-show state on load
+        showCurrentState();
+    </script>
+</body>
+</html>

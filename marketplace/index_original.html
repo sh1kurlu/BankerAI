@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketPlace - Your One-Stop Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-blue-600">MarketPlace</h1>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Home</a>
+                    <a href="category.html?category=electronics" class="text-gray-700 hover:text-blue-600 transition-colors">Electronics</a>
+                    <a href="category.html?category=fashion" class="text-gray-700 hover:text-blue-600 transition-colors">Fashion</a>
+                    <a href="category.html?category=books" class="text-gray-700 hover:text-blue-600 transition-colors">Books</a>
+                    <a href="category.html?category=beauty" class="text-gray-700 hover:text-blue-600 transition-colors">Beauty</a>
+                    <a href="category.html?category=sports" class="text-gray-700 hover:text-blue-600 transition-colors">Sports</a>
+                    <a href="category.html?category=home" class="text-gray-700 hover:text-blue-600 transition-colors">Home</a>
+                </nav>
+
+                <!-- User Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- User ID Input -->
+                    <div class="flex items-center space-x-2">
+                        <label for="user-id" class="text-sm text-gray-600">User:</label>
+                        <input type="text" id="user-id" placeholder="Enter user ID" class="px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Cart -->
+                    <button id="cart-btn" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-1.5M16 6a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4">Welcome to MarketPlace</h2>
+            <p class="text-xl mb-8">Discover amazing products across all categories</p>
+            <button id="get-recommendations-btn" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                Get AI Recommendations
+            </button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- AI Recommendations Section -->
+        <section id="recommendations-section" class="mb-12 hidden">
+            <h3 class="text-2xl font-bold mb-6 text-gray-800">Recommended For You</h3>
+            <div id="recommendations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Recommendations will be populated here -->
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 text-gray-800">Featured Products</h3>
+            <div id="featured-products" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Products will be populated here -->
+            </div>
+        </section>
+
+        <!-- Shop by Category -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 text-gray-800">Shop by Category</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <a href="category.html?category=electronics" class="category-card bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-2">💻</div>
+                    <h4 class="font-semibold text-gray-800">Electronics</h4>
+                </a>
+                <a href="category.html?category=fashion" class="category-card bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-2">👕</div>
+                    <h4 class="font-semibold text-gray-800">Fashion</h4>
+                </a>
+                <a href="category.html?category=books" class="category-card bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-2">📚</div>
+                    <h4 class="font-semibold text-gray-800">Books</h4>
+                </a>
+                <a href="category.html?category=beauty" class="category-card bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-2">💄</div>
+                    <h4 class="font-semibold text-gray-800">Beauty</h4>
+                </a>
+                <a href="category.html?category=sports" class="category-card bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-2">⚽</div>
+                    <h4 class="font-semibold text-gray-800">Sports</h4>
+                </a>
+                <a href="category.html?category=home" class="category-card bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-2">🏠</div>
+                    <h4 class="font-semibold text-gray-800">Home</h4>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Shopping Cart</h3>
+                <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="cart-items" class="space-y-4 mb-4">
+                <!-- Cart items will be populated here -->
+            </div>
+            <div class="border-t pt-4">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="font-semibold">Total: $<span id="cart-total">0.00</span></span>
+                </div>
+                <button id="checkout-btn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 MarketPlace. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="data/products.js"></script>
+    <script src="js/tracking_simple.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

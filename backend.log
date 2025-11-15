@@ -1,0 +1,132 @@
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:108: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  user_data['hour'] = user_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:108: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  user_data['hour'] = user_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:108: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  user_data['hour'] = user_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:108: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  user_data['hour'] = user_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:108: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  user_data['hour'] = user_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:108: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  user_data['hour'] = user_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:108: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  user_data['hour'] = user_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour
+/Users/meh2/CustomerAI/BankerAI/core/ai_behavioral_engine.py:1361: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  item_data['hour'] = item_data['timestamp'].dt.hour

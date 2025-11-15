@@ -1,11 +1,13 @@
 from __future__ import annotations
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 import pandas as pd
 import numpy as np
 from datetime import datetime
+import asyncio
+from collections import defaultdict
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -75,6 +77,44 @@ class AIBehavioralAnalysisResponse(BaseModel):
     predicted_actions: List[Dict[str, Any]]
     persona: Dict[str, Any]
     analytics_data: Dict[str, Any]
+
+
+class TrackEventRequest(BaseModel):
+    user_id: str
+    item_id: Optional[str] = None
+    event_type: str
+    timestamp: str
+    item_name: Optional[str] = None
+    category: Optional[str] = None
+    price: Optional[float] = None
+    brand: Optional[str] = None
+    quantity: Optional[int] = None
+    search_query: Optional[str] = None
+    results_count: Optional[int] = None
+    recommendation_action: Optional[str] = None
+    score: Optional[float] = None
+    element: Optional[str] = None
+    position: Optional[str] = None
+    page_url: str
+    referrer: Optional[str] = None
+    session_id: str
+    user_agent: Optional[str] = None
+    screen_resolution: Optional[str] = None
+    viewport: Optional[str] = None
+
+
+class TrackEventsBatchRequest(BaseModel):
+    events: List[Dict[str, Any]]
+
+
+class RealtimeInsightsResponse(BaseModel):
+    user_id: str
+    session_events: int
+    last_activity: str
+    recent_categories: List[str]
+    current_interest: str
+    recommendations_ready: bool
+    insights_timestamp: str
 
 
 @app.get("/api/health")
@@ -233,3 +273,131 @@ async def ai_behavioral_analysis(req: AIBehavioralAnalysisRequest):
     ai_output_clean = json.loads(json_str)
     
     return AIBehavioralAnalysisResponse(**ai_output_clean)
+
+
+# Real-time tracking endpoints
+@app.post("/api/track_event")
+async def track_event(event: TrackEventRequest):
+    """Track a single user event in real-time."""
+    try:
+        # Convert to DataFrame row and append to events
+        event_dict = event.dict()
+        
+        # Add to global events dataframe
+        global events_df
+        new_row = pd.DataFrame([event_dict])
+        events_df = pd.concat([events_df, new_row], ignore_index=True)
+        
+        # Update engines with new data
+        ai_behavioral_engine.events_df = events_df.copy()
+        ai_behavioral_engine.events_df['timestamp'] = pd.to_datetime(ai_behavioral_engine.events_df['timestamp'])
+        
+        return {"status": "success", "message": "Event tracked successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error tracking event: {str(e)}")
+
+
+@app.post("/api/track_events_batch")
+async def track_events_batch(batch: TrackEventsBatchRequest):
+    """Track multiple user events in batch for better performance."""
+    try:
+        global events_df
+        
+        # Convert batch events to DataFrame
+        if batch.events:
+            new_rows = pd.DataFrame(batch.events)
+            events_df = pd.concat([events_df, new_rows], ignore_index=True)
+            
+            # Update engines with new data
+            ai_behavioral_engine.events_df = events_df.copy()
+            ai_behavioral_engine.events_df['timestamp'] = pd.to_datetime(ai_behavioral_engine.events_df['timestamp'], format='mixed', errors='coerce')
+            
+            # Rebuild profiles if we have enough new data
+            if len(batch.events) > 5:
+                ai_behavioral_engine.user_profiles = ai_behavioral_engine._build_user_profiles()
+                ai_behavioral_engine.item_profiles = ai_behavioral_engine._build_item_profiles()
+        
+        return {
+            "status": "success", 
+            "message": f"{len(batch.events)} events tracked successfully",
+            "total_events": len(events_df)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error tracking batch events: {str(e)}")
+
+
+@app.get("/api/realtime-insights/{user_id}", response_model=RealtimeInsightsResponse)
+async def get_realtime_insights(user_id: str):
+    """Get real-time insights for a user based on recent activity."""
+    try:
+        user_events = events_df[events_df["user_id"] == user_id].copy()
+        
+        if user_events.empty:
+            return RealtimeInsightsResponse(
+                user_id=user_id,
+                session_events=0,
+                last_activity="No activity found",
+                recent_categories=[],
+                current_interest="Unknown",
+                recommendations_ready=False,
+                insights_timestamp=datetime.now().isoformat()
+            )
+        
+        # Get recent activity (last 30 minutes)
+        recent_cutoff = datetime.now() - pd.Timedelta(minutes=30)
+        user_events['timestamp'] = pd.to_datetime(user_events['timestamp'])
+        recent_events = user_events[user_events['timestamp'] > recent_cutoff]
+        
+        # Analyze recent categories
+        recent_categories = recent_events['category'].value_counts().head(3).index.tolist() if 'category' in recent_events.columns else []
+        
+        # Determine current interest
+        current_interest = "Browsing" if len(recent_events) < 3 else "Engaged"
+        if len(recent_events) > 10:
+            current_interest = "Highly Active"
+        
+        # Check if we have enough data for recommendations
+        recommendations_ready = len(user_events) >= 5
+        
+        # Get last activity time
+        if not recent_events.empty:
+            last_activity = recent_events['timestamp'].max().strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            last_activity = user_events['timestamp'].max().strftime("%Y-%m-%d %H:%M:%S") if not user_events.empty else "Unknown"
+        
+        return RealtimeInsightsResponse(
+            user_id=user_id,
+            session_events=len(recent_events),
+            last_activity=last_activity,
+            recent_categories=recent_categories,
+            current_interest=current_interest,
+            recommendations_ready=recommendations_ready,
+            insights_timestamp=datetime.now().isoformat()
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error getting realtime insights: {str(e)}")
+
+
+@app.get("/api/user/{user_id}/recent-activity")
+async def get_user_recent_activity(user_id: str, limit: int = 10):
+    """Get recent activity for a specific user."""
+    try:
+        user_events = events_df[events_df["user_id"] == user_id].copy()
+        
+        if user_events.empty:
+            return {"user_id": user_id, "recent_activity": []}
+        
+        # Sort by timestamp (newest first)
+        user_events['timestamp'] = pd.to_datetime(user_events['timestamp'])
+        recent_events = user_events.sort_values('timestamp', ascending=False).head(limit)
+        
+        # Convert to list of dicts
+        activity_list = recent_events.to_dict('records')
+        
+        return {
+            "user_id": user_id,
+            "recent_activity": activity_list,
+            "total_events": len(user_events)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error getting user activity: {str(e)}")

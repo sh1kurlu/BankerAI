@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Test</title>
+</head>
+<body>
+    <h1>Cart Test</h1>
+    <div id="output"></div>
+    
+    <script src="data/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const output = document.getElementById('output');
+            
+            try {
+                const cart = new ShoppingCart();
+                output.innerHTML = '<p>✅ Cart loaded successfully</p>';
+                
+                // Test adding an item
+                if (products && products.length > 0) {
+                    cart.addItem(products[0], 1);
+                    output.innerHTML += `<p>✅ Added ${products[0].item_name} to cart</p>`;
+                    output.innerHTML += `<p>Cart items: ${cart.getItemCount()}</p>`;
+                }
+                
+            } catch (error) {
+                output.innerHTML = `<p>❌ Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

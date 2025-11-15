@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketPlace - Your One-Stop Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-blue-600">MarketPlace</h1>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="home">Home</a>
+                    <a href="category.html?category=electronics" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="electronics">Electronics</a>
+                    <a href="category.html?category=fashion" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="fashion">Fashion</a>
+                    <a href="category.html?category=books" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="books">Books</a>
+                    <a href="category.html?category=beauty" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="beauty">Beauty</a>
+                    <a href="category.html?category=sports" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="sports">Sports</a>
+                    <a href="category.html?category=home" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="home">Home</a>
+                </nav>
+
+                <!-- User Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Language Selector -->
+                    <div class="flex items-center space-x-2">
+                        <label for="language-selector" class="text-sm text-gray-600" data-i18n="selectLanguage">Language:</label>
+                        <select id="language-selector" class="px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="en">English</option>
+                            <option value="ru">Русский</option>
+                            <option value="az">Azərbaycanca</option>
+                        </select>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-2 text-gray-700 hover:text-blue-600 transition-colors bg-gray-100 rounded-lg" title="Toggle Theme">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Currency Toggle -->
+                    <button id="currency-toggle" class="px-3 py-1 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors bg-gray-100 rounded-lg" title="Toggle Currency">
+                        AZN
+                    </button>
+
+                    <!-- User ID Input -->
+                    <div class="flex items-center space-x-2">
+                        <label for="user-id" class="text-sm text-gray-600" data-i18n="user">User:</label>
+                        <input type="text" id="user-id" placeholder="Enter user ID" class="px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Cart -->
+                    <button id="cart-btn" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-1.5M16 6a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4" data-i18n="featuredProducts">Featured Products</h2>
+            <p class="text-lg text-gray-600 mb-8">Discover amazing products with AI-powered recommendations</p>
+            
+            <!-- AI Recommendations Section -->
+            <div class="mb-8">
+                <button id="get-recommendations-btn" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold shadow-lg">
+                    <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                    <span data-i18n="getRecommendations">Get AI Recommendations</span>
+                </button>
+            </div>
+
+            <!-- Recommendations Display -->
+            <div id="recommendations-section" class="hidden mt-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6" data-i18n="recommendations">AI Recommendations</h3>
+                <div id="recommendations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Recommendations will be populated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center" data-i18n="categories">Categories</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <a href="category.html?category=electronics" class="category-card bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-2">📱</div>
+                    <h4 class="font-semibold text-gray-800" data-i18n="electronics">Electronics</h4>
+                </a>
+                <a href="category.html?category=fashion" class="category-card bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-2">👕</div>
+                    <h4 class="font-semibold text-gray-800" data-i18n="fashion">Fashion</h4>
+                </a>
+                <a href="category.html?category=books" class="category-card bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-2">📚</div>
+                    <h4 class="font-semibold text-gray-800" data-i18n="books">Books</h4>
+                </a>
+                <a href="category.html?category=beauty" class="category-card bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-2">💄</div>
+                    <h4 class="font-semibold text-gray-800" data-i18n="beauty">Beauty</h4>
+                </a>
+                <a href="category.html?category=sports" class="category-card bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-2">⚽</div>
+                    <h4 class="font-semibold text-gray-800" data-i18n="sports">Sports</h4>
+                </a>
+                <a href="category.html?category=home" class="category-card bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-4xl mb-2">🏠</div>
+                    <h4 class="font-semibold text-gray-800" data-i18n="home">Home</h4>
+                </a>
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section>
+            <div id="featured-products" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Featured products will be populated here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold" data-i18n="shoppingCart">Shopping Cart</h3>
+                <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="cart-items" class="space-y-4 mb-4">
+                <!-- Cart items will be populated here -->
+            </div>
+            <div class="border-t pt-4">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="font-semibold" data-i18n="total">Total:</span>
+                    <span class="font-bold text-xl"><span class="currency-symbol">₼</span><span id="cart-total">0.00</span></span>
+                </div>
+                <button id="checkout-btn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors" data-i18n="checkout">
+                    Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 MarketPlace. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="data/products.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/ai_recommendations.js"></script>
+    <script src="js/tracking_simple.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main_enhanced.js"></script>
+</body>
+</html>

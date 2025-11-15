@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking Test</title>
+</head>
+<body>
+    <h1>Tracking Test</h1>
+    <div id="output"></div>
+    
+    <script src="data/products.js"></script>
+    <script src="js/tracking.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const output = document.getElementById('output');
+            
+            try {
+                const tracker = new UserTracker();
+                output.innerHTML = `<p>✅ Tracker loaded successfully</p>
+                    <p>User ID: ${tracker.userId}</p>
+                    <p>Session ID: ${tracker.sessionId}</p>`;
+                
+            } catch (error) {
+                output.innerHTML = `<p>❌ Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

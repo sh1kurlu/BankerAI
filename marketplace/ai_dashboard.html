@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Behavioral Analysis Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .dashboard-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+        }
+        .insight-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 12px;
+        }
+        .recommendation-card {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 12px;
+        }
+        .persona-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tech-explorer { background: #3b82f6; color: white; }
+        .sports-enthusiast { background: #ef4444; color: white; }
+        .fashion-lover { background: #ec4899; color: white; }
+        .bookworm { background: #8b5cf6; color: white; }
+        .bargain-hunter { background: #f59e0b; color: white; }
+        .impulse-buyer { background: #10b981; color: white; }
+        .loyal-customer { background: #6366f1; color: white; }
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, transparent 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        [data-theme="dark"] .dashboard-card {
+            background: #374151;
+            color: white;
+        }
+        [data-theme="dark"] .bg-white {
+            background-color: #374151 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">🧠 AI Behavioral Analysis Dashboard</h1>
+                        <p class="text-sm text-gray-600">Advanced customer intelligence and predictive analytics</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <input type="text" id="user-id-input" placeholder="Enter User ID (try 101 or 102)" 
+                               class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <button id="analyze-btn" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                            Analyze User
+                        </button>
+                        <button id="theme-toggle" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors">
+                            🌓 Toggle Theme
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Loading State -->
+            <div id="loading-state" class="text-center py-20 hidden">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <p class="text-gray-600">Analyzing user behavior with AI...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="error-state" class="text-center py-20 hidden">
+                <div class="text-red-500 text-6xl mb-4">⚠️</div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Analysis Failed</h3>
+                <p class="text-gray-600 mb-4" id="error-message">Unable to analyze user behavior</p>
+                <button onclick="location.reload()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    Try Again
+                </button>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div id="dashboard-content" class="hidden">
+                <!-- Key Metrics Row -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="metric-card p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm opacity-80">Persona Type</p>
+                                <p class="text-xl font-bold" id="persona-type">-</p>
+                            </div>
+                            <div class="text-3xl">🎯</div>
+                        </div>
+                    </div>
+                    <div class="metric-card p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm opacity-80">Engagement Level</p>
+                                <p class="text-xl font-bold" id="engagement-level">-</p>
+                            </div>
+                            <div class="text-3xl">📊</div>
+                        </div>
+                    </div>
+                    <div class="metric-card p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm opacity-80">Purchase Probability</p>
+                                <p class="text-xl font-bold" id="purchase-probability">-</p>
+                            </div>
+                            <div class="text-3xl">💰</div>
+                        </div>
+                    </div>
+                    <div class="metric-card p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm opacity-80">Churn Risk</p>
+                                <p class="text-xl font-bold" id="churn-risk">-</p>
+                            </div>
+                            <div class="text-3xl">⚠️</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Recommendations with Explanations -->
+                <div class="dashboard-card p-6 mb-8">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        🤖 AI Recommendations with Explanations
+                    </h2>
+                    <div id="recommendations-container" class="space-y-4">
+                        <!-- Recommendations will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- User Persona Analysis -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <div class="dashboard-card p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                            👤 User Persona Analysis
+                        </h2>
+                        <div id="persona-details" class="space-y-4">
+                            <!-- Persona details will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                            📈 Behavioral Insights
+                        </h2>
+                        <div id="behavioral-insights" class="space-y-4">
+                            <!-- Behavioral insights will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Predictive Analytics -->
+                <div class="dashboard-card p-6 mb-8">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        🔮 Predictive Analytics
+                    </h2>
+                    <div id="predictions-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Predictions will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Visual Analytics -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <div class="dashboard-card p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">📊 Category Distribution</h2>
+                        <canvas id="category-chart" width="400" height="300"></canvas>
+                    </div>
+
+                    <div class="dashboard-card p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">⏰ Activity Heatmap</h2>
+                        <div id="activity-heatmap" class="grid grid-cols-24 gap-1">
+                            <!-- Heatmap will be generated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trend Analysis -->
+                <div class="dashboard-card p-6 mb-8">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        📊 Trend Analysis & Interest Growth
+                    </h2>
+                    <canvas id="trends-chart" width="800" height="300"></canvas>
+                </div>
+
+                <!-- Raw Data Insights -->
+                <div class="dashboard-card p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        📋 Complete AI Analysis Data
+                    </h2>
+                    <div class="bg-gray-50 rounded-lg p-4 overflow-auto max-h-96">
+                        <pre id="raw-data" class="text-sm text-gray-700"></pre>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data/products.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/theme.js"></script>
+    
+    <script>
+        // Dashboard functionality
+        class AIDashboard {
+            constructor() {
+                this.currentUserId = null;
+                this.currentData = null;
+                this.charts = {};
+                this.initializeEventListeners();
+            }
+
+            initializeEventListeners() {
+                document.getElementById('analyze-btn').addEventListener('click', () => this.analyzeUser());
+                document.getElementById('theme-toggle').addEventListener('click', () => this.toggleTheme());
+                
+                // Enter key support
+                document.getElementById('user-id-input').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.analyzeUser();
+                });
+            }
+
+            async analyzeUser() {
+                // Get current user ID from real-time tracker
+                let userId;
+                try {
+                    const userInfo = window.getCurrentUserInfo();
+                    userId = userInfo.userId;
+                    console.log('Auto-loading dashboard for user:', userId);
+                } catch (error) {
+                    console.log('Could not get user info, falling back to input field');
+                    userId = document.getElementById('user-id-input').value.trim();
+                }
+                
+                if (!userId) {
+                    alert('Please enter a user ID or use the marketplace first');
+                    return;
+                }
+
+                this.showLoadingState();
+                this.currentUserId = userId;
+
+                try {
+                    // Try backend first, fallback to simulated data
+                    const response = await fetch(`http://127.0.0.1:8000/api/ai-behavioral-analysis`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ user_id: userId, k: 6 })
+                    });
+
+                    if (!response.ok) throw new Error('Backend unavailable');
+                    
+                    const data = await response.json();
+                    this.currentData = data;
+                    this.renderDashboard(data);
+                    this.showDashboardState();
+                    
+                } catch (error) {
+                    console.log('Backend unavailable, using simulated data');
+                    const simulatedData = this.generateSimulatedData(userId);
+                    this.currentData = simulatedData;
+                    this.renderDashboard(simulatedData);
+                    this.showDashboardState();
+                }
+            }
+
+            generateSimulatedData(userId) {
+                // Simulated comprehensive AI analysis data
+                const personas = ['Tech Explorer', 'Sports Enthusiast', 'Fashion Lover', 'Bookworm', 'Bargain Hunter'];
+                const categories = ['Electronics', 'Fashion', 'Books', 'Sports', 'Beauty', 'Home'];
+                
+                return {
+                    user_id: userId,
+                    recommendations: [
+                        {
+                            item_id: "item_001",
+                            item_name: "Smart Watch Pro",
+                            category: "Electronics",
+                            score: 0.92,
+                            reason: "Based on your recent electronics purchases",
+                            behavioral_justification: "You viewed 3 electronics items this week, showing 85% interest in tech products",
+                            similarity_score: 0.88,
+                            collaborative_reasoning: "Users similar to you purchased this item 4.2x more often",
+                            confidence: "Very High",
+                            trend_alignment: "Electronics trend is rising +23% this week"
+                        },
+                        {
+                            item_id: "item_002", 
+                            item_name: "Wireless Headphones",
+                            category: "Electronics",
+                            score: 0.87,
+                            reason: "Complements your recent tech purchases",
+                            behavioral_justification: "You show consistent interest in audio products with 78% engagement rate",
+                            similarity_score: 0.82,
+                            collaborative_reasoning: "Similar users who bought smart watches also bought headphones",
+                            confidence: "High",
+                            trend_alignment: "Audio products showing +15% growth in your demographic"
+                        }
+                    ],
+                    explanations: [
+                        {
+                            type: "behavioral_pattern",
+                            description: "Analysis based on your interaction patterns and preferences",
+                            confidence: "high"
+                        },
+                        {
+                            type: "collaborative_filtering", 
+                            description: "Recommendations based on similar users' preferences",
+                            confidence: "high"
+                        },
+                        {
+                            type: "trend_analysis",
+                            description: "Insights based on current market trends and user behavior shifts",
+                            confidence: "medium"
+                        }
+                    ],
+                    user_summary: {
+                        user_id: userId,
+                        top_categories: [
+                            {category: "Electronics", count: 15, percentage: 45},
+                            {category: "Fashion", count: 8, percentage: 24},
+                            {category: "Books", count: 6, percentage: 18}
+                        ],
+                        most_active_hours: [20, 21, 14],
+                        recent_trends: ["Electronics interest +44%", "Fashion engagement -12%", "Evening activity +23%"],
+                        purchase_tendencies: {
+                            impulse_buyer: false,
+                            researcher: true,
+                            brand_loyal: true,
+                            price_conscious: false,
+                            category_explorer: true
+                        },
+                        engagement_level: "High",
+                        loyalty_indicators: {
+                            repeat_purchase_rate: 0.78,
+                            account_age_days: 156,
+                            activity_consistency: "Very Consistent",
+                            engagement_depth: "Deep"
+                        },
+                        seasonal_patterns: ["Q4 tech purchases", "Spring fashion interest"]
+                    },
+                    predicted_actions: [
+                        {
+                            action_type: "purchase_smartwatch",
+                            probability: 0.82,
+                            reasoning: "Based on recent electronics views and similar user patterns",
+                            timeframe: "Next 48 hours",
+                            influencing_factors: ["Viewed 3 smartwatches", "Price drop alert", "Similar user purchases"],
+                            confidence_level: "Very High"
+                        },
+                        {
+                            action_type: "explore_new_category",
+                            probability: 0.65,
+                            reasoning: "User shows exploratory behavior with diverse category interests",
+                            timeframe: "Next week",
+                            influencing_factors: ["Category explorer persona", "Recent trend analysis"],
+                            confidence_level: "Medium"
+                        }
+                    ],
+                    persona: {
+                        persona_type: "Tech Explorer",
+                        description: "A technology enthusiast who researches products thoroughly before purchasing. Shows high engagement with electronics and values detailed product information.",
+                        key_characteristics: ["Research-oriented", "Tech-savvy", "Quality-focused", "Patient buyer"],
+                        purchasing_behavior: "Researches extensively, compares multiple products, waits for optimal pricing",
+                        category_preferences: ["Electronics", "Books", "Fashion"],
+                        activity_patterns: {
+                            peak_hours: [20, 21, 14],
+                            session_frequency: 2.3,
+                            browsing_patterns: "Deep research sessions",
+                            decision_speed: "Slow and methodical"
+                        },
+                        risk_factors: ["May abandon cart if price increases", "Long decision cycles"],
+                        opportunities: ["Upsell premium tech products", "Cross-sell accessories"]
+                    },
+                    analytics_data: {
+                        category_distribution: {
+                            labels: ["Electronics", "Fashion", "Books", "Sports", "Beauty"],
+                            data: [45, 24, 18, 8, 5],
+                            colors: ["#3b82f6", "#ec4899", "#8b5cf6", "#ef4444", "#f59e0b"]
+                        },
+                        hourly_activity_heatmap: {
+                            hours: Array.from({length: 24}, (_, i) => i),
+                            activity: [2, 1, 0, 0, 1, 3, 5, 8, 12, 15, 18, 20, 22, 25, 28, 32, 35, 38, 42, 45, 48, 35, 25, 15]
+                        },
+                        interaction_trends: {
+                            dates: ["2024-01-01", "2024-01-02", "2024-01-03", "2024-01-04", "2024-01-05"],
+                            interactions: [12, 15, 18, 22, 28]
+                        },
+                        similarity_breakdown: {
+                            similar_users: 47,
+                            common_items: 23,
+                            behavior_match: 0.85
+                        },
+                        purchase_funnel: {
+                            views: 100,
+                            clicks: 75,
+                            cart_adds: 45,
+                            purchases: 28
+                        },
+                        user_interest_growth: {
+                            electronics: 44,
+                            fashion: -12,
+                            books: 8
+                        },
+                        behavioral_segments: {
+                            research_heavy: 0.78,
+                            price_sensitive: 0.23,
+                            brand_loyal: 0.67
+                        },
+                        predictive_metrics: {
+                            conversion_probability: 0.42,
+                            churn_risk: 0.15,
+                            lifetime_value: 1247
+                        }
+                    }
+                };
+            }
+
+            renderDashboard(data) {
+                this.renderKeyMetrics(data);
+                this.renderRecommendations(data.recommendations);
+                this.renderPersona(data.persona);
+                this.renderBehavioralInsights(data.user_summary);
+                this.renderPredictions(data.predicted_actions);
+                this.renderAnalytics(data.analytics_data);
+                this.renderRawData(data);
+            }
+
+            renderKeyMetrics(data) {
+                document.getElementById('persona-type').textContent = data.persona.persona_type;
+                document.getElementById('engagement-level').textContent = data.user_summary.engagement_level;
+                
+                const purchaseProb = data.predicted_actions.find(p => p.action_type.includes('purchase'))?.probability || 0.42;
+                document.getElementById('purchase-probability').textContent = `${(purchaseProb * 100).toFixed(0)}%`;
+                
+                const churnRisk = data.analytics_data.predictive_metrics.churn_risk;
+                document.getElementById('churn-risk').textContent = `${(churnRisk * 100).toFixed(0)}%`;
+            }
+
+            renderRecommendations(recommendations) {
+                const container = document.getElementById('recommendations-container');
+                container.innerHTML = '';
+
+                recommendations.forEach(rec => {
+                    const card = document.createElement('div');
+                    card.className = 'recommendation-card p-4';
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="font-bold text-lg">${rec.item_name}</h3>
+                                <p class="text-sm opacity-90">${rec.category}</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold">${(rec.score * 100).toFixed(0)}%</div>
+                                <div class="text-xs opacity-75">${rec.confidence}</div>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div><strong>🎯 Why Recommended:</strong> ${rec.reason}</div>
+                            <div><strong>🧠 Behavioral Analysis:</strong> ${rec.behavioral_justification}</div>
+                            <div><strong>👥 Collaborative Reasoning:</strong> ${rec.collaborative_reasoning}</div>
+                            <div><strong>📈 Trend Alignment:</strong> ${rec.trend_alignment}</div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+
+            renderPersona(persona) {
+                const container = document.getElementById('persona-details');
+                container.innerHTML = `
+                    <div class="text-center mb-4">
+                        <div class="persona-badge tech-explorer text-lg px-4 py-2">${persona.persona_type}</div>
+                    </div>
+                    <p class="text-gray-700 mb-4">${persona.description}</p>
+                    <div class="space-y-3">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">Key Characteristics</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${persona.key_characteristics.map(char => 
+                                    `<span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">${char}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">Category Preferences</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${persona.category_preferences.map(cat => 
+                                    `<span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">${cat}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">Opportunities</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                ${persona.opportunities.map(opp => `<li>• ${opp}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderBehavioralInsights(userSummary) {
+                const container = document.getElementById('behavioral-insights');
+                container.innerHTML = `
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">Top Categories</h4>
+                            <div class="space-y-2">
+                                ${userSummary.top_categories.map(cat => `
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">${cat.category}</span>
+                                        <div class="flex items-center space-x-2">
+                                            <div class="bg-gray-200 rounded-full h-2 w-20">
+                                                <div class="bg-blue-600 h-2 rounded-full" style="width: ${cat.percentage}%"></div>
+                                            </div>
+                                            <span class="text-xs text-gray-600">${cat.percentage}%</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">Recent Trends</h4>
+                            <div class="space-y-1">
+                                ${userSummary.recent_trends.map(trend => `
+                                    <div class="text-sm ${trend.includes('+') ? 'text-green-600' : 'text-red-600'}">
+                                        ${trend.includes('+') ? '📈' : '📉'} ${trend}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-2">Purchase Tendencies</h4>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                ${Object.entries(userSummary.purchase_tendencies).map(([key, value]) => `
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-3 h-3 rounded-full ${value ? 'bg-green-500' : 'bg-gray-300'}"></div>
+                                        <span class="capitalize">${key.replace('_', ' ')}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderPredictions(predictions) {
+                const container = document.getElementById('predictions-container');
+                container.innerHTML = '';
+
+                predictions.forEach(prediction => {
+                    const card = document.createElement('div');
+                    card.className = 'insight-card p-4';
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-semibold">${prediction.action_type.replace('_', ' ').toUpperCase()}</h4>
+                            <div class="text-2xl">${this.getPredictionEmoji(prediction.action_type)}</div>
+                        </div>
+                        <div class="text-2xl font-bold mb-2">${(prediction.probability * 100).toFixed(0)}%</div>
+                        <p class="text-sm opacity-90 mb-3">${prediction.reasoning}</p>
+                        <div class="text-xs opacity-75">
+                            <div><strong>Timeframe:</strong> ${prediction.timeframe}</div>
+                            <div><strong>Confidence:</strong> ${prediction.confidence_level}</div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+
+            getPredictionEmoji(actionType) {
+                const emojis = {
+                    'purchase': '💰',
+                    'explore': '🔍',
+                    'churn': '⚠️',
+                    'convert': '🎯'
+                };
+                return emojis[actionType.split('_')[0]] || '📊';
+            }
+
+            renderAnalytics(analyticsData) {
+                this.renderCategoryChart(analyticsData.category_distribution);
+                this.renderActivityHeatmap(analyticsData.hourly_activity_heatmap);
+                this.renderTrendsChart(analyticsData.interaction_trends);
+            }
+
+            renderCategoryChart(categoryData) {
+                const ctx = document.getElementById('category-chart').getContext('2d');
+                
+                if (this.charts.category) {
+                    this.charts.category.destroy();
+                }
+
+                this.charts.category = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: categoryData.labels,
+                        datasets: [{
+                            data: categoryData.data,
+                            backgroundColor: categoryData.colors,
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+
+            renderActivityHeatmap(heatmapData) {
+                const container = document.getElementById('activity-heatmap');
+                container.innerHTML = '';
+
+                const maxActivity = Math.max(...heatmapData.activity);
+                
+                heatmapData.hours.forEach((hour, index) => {
+                    const activity = heatmapData.activity[index];
+                    const intensity = activity / maxActivity;
+                    const color = this.getHeatmapColor(intensity);
+                    
+                    const cell = document.createElement('div');
+                    cell.className = 'w-6 h-6 rounded text-xs flex items-center justify-center text-white font-bold';
+                    cell.style.backgroundColor = color;
+                    cell.title = `Hour ${hour}: ${activity} interactions`;
+                    cell.textContent = hour;
+                    container.appendChild(cell);
+                });
+            }
+
+            getHeatmapColor(intensity) {
+                const colors = [
+                    '#dbeafe', '#bfdbfe', '#93c5fd', '#60a5fa', '#3b82f6',
+                    '#2563eb', '#1d4ed8', '#1e40af', '#1e3a8a', '#172554'
+                ];
+                return colors[Math.floor(intensity * (colors.length - 1))];
+            }
+
+            renderTrendsChart(trendsData) {
+                const ctx = document.getElementById('trends-chart').getContext('2d');
+                
+                if (this.charts.trends) {
+                    this.charts.trends.destroy();
+                }
+
+                this.charts.trends = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: trendsData.dates.map(date => new Date(date).toLocaleDateString()),
+                        datasets: [{
+                            label: 'Daily Interactions',
+                            data: trendsData.interactions,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            renderRawData(data) {
+                document.getElementById('raw-data').textContent = JSON.stringify(data, null, 2);
+            }
+
+            showLoadingState() {
+                document.getElementById('loading-state').classList.remove('hidden');
+                document.getElementById('dashboard-content').classList.add('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+            }
+
+            showDashboardState() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('dashboard-content').classList.remove('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+            }
+
+            showErrorState(message) {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('dashboard-content').classList.add('hidden');
+                document.getElementById('error-state').classList.remove('hidden');
+                document.getElementById('error-message').textContent = message;
+            }
+
+            toggleTheme() {
+                if (window.toggleTheme) {
+                    window.toggleTheme();
+                }
+            }
+        }
+
+        // Initialize dashboard when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize theme
+            if (typeof ThemeManager !== 'undefined') {
+                window.themeManager = new ThemeManager();
+            }
+            
+            // Initialize dashboard
+            window.aiDashboard = new AIDashboard();
+            
+            // Auto-load current user data if available
+            setTimeout(() => {
+                if (window.getCurrentUserInfo) {
+                    const userInfo = window.getCurrentUserInfo();
+                    if (userInfo && userInfo.userId) {
+                        console.log('Auto-loading dashboard for current user:', userInfo.userId);
+                        // Auto-trigger analysis for current user
+                        window.aiDashboard.analyzeUser();
+                    }
+                }
+            }, 1000); // Small delay to ensure everything is loaded
+            
+            console.log('🧠 AI Behavioral Analysis Dashboard initialized successfully!');
+        });
+    </script>
+</body>
+</html>

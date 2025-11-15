@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CustomerAI - Login/Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1e40af;
+            --accent-color: #f59e0b;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --border-color: #e5e7eb;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #60a5fa;
+            --secondary-color: #3b82f6;
+            --accent-color: #fbbf24;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --border-color: #374151;
+        }
+
+        body {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .auth-container {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .form-input {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            border-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="auth-container rounded-2xl p-8 w-full max-w-md">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex justify-center mb-4">
+                <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <i class="fas fa-brain text-white text-2xl"></i>
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold mb-2">CustomerAI</h1>
+            <p class="text-gray-600 dark:text-gray-400">Smart Shopping Experience</p>
+        </div>
+
+        <!-- Theme Toggle -->
+        <div class="flex justify-center mb-6">
+            <button id="themeToggle" class="btn-secondary px-4 py-2 rounded-lg flex items-center gap-2">
+                <i class="fas fa-moon"></i>
+                <span id="themeText">Dark Mode</span>
+            </button>
+        </div>
+
+        <!-- Language Selector -->
+        <div class="flex justify-center mb-6">
+            <select id="languageSelect" class="form-input px-3 py-2 rounded-lg text-sm">
+                <option value="en">🇺🇸 English</option>
+                <option value="ru">🇷🇺 Русский</option>
+                <option value="az">🇦🇿 Azərbaycan</option>
+            </select>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium mb-2" data-i18n="auth.username">Username</label>
+                <input type="text" id="loginUsername" class="form-input w-full px-4 py-3 rounded-lg" placeholder="Enter your username">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2" data-i18n="auth.password">Password</label>
+                <input type="password" id="loginPassword" class="form-input w-full px-4 py-3 rounded-lg" placeholder="Enter your password">
+            </div>
+            <button type="button" id="loginBtn" class="btn-primary w-full py-3 rounded-lg font-medium">
+                <i class="fas fa-sign-in-alt mr-2"></i>
+                <span data-i18n="auth.login">Login</span>
+            </button>
+            <p class="text-center text-sm text-gray-600 dark:text-gray-400">
+                <span data-i18n="auth.no_account">Don't have an account?</span>
+                <a href="#" id="showRegister" class="text-blue-500 hover:text-blue-600 ml-1" data-i18n="auth.register_here">Register here</a>
+            </p>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="space-y-4 hidden">
+            <div>
+                <label class="block text-sm font-medium mb-2" data-i18n="auth.username">Username</label>
+                <input type="text" id="registerUsername" class="form-input w-full px-4 py-3 rounded-lg" placeholder="Choose a username">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2" data-i18n="auth.email">Email</label>
+                <input type="email" id="registerEmail" class="form-input w-full px-4 py-3 rounded-lg" placeholder="Enter your email">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2" data-i18n="auth.password">Password</label>
+                <input type="password" id="registerPassword" class="form-input w-full px-4 py-3 rounded-lg" placeholder="Create a password">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2" data-i18n="auth.confirm_password">Confirm Password</label>
+                <input type="password" id="registerConfirmPassword" class="form-input w-full px-4 py-3 rounded-lg" placeholder="Confirm your password">
+            </div>
+            <button type="button" id="registerBtn" class="btn-primary w-full py-3 rounded-lg font-medium">
+                <i class="fas fa-user-plus mr-2"></i>
+                <span data-i18n="auth.register">Register</span>
+            </button>
+            <p class="text-center text-sm text-gray-600 dark:text-gray-400">
+                <span data-i18n="auth.has_account">Already have an account?</span>
+                <a href="#" id="showLogin" class="text-blue-500 hover:text-blue-600 ml-1" data-i18n="auth.login_here">Login here</a>
+            </p>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="statusMessage" class="mt-4 p-3 rounded-lg hidden"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/i18n.js"></script>
+    <script>
+        // Simple authentication system
+        class AuthSystem {
+            constructor() {
+                this.currentUser = null;
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.checkExistingUser();
+                this.applyTheme();
+                this.setupLanguage();
+            }
+
+            setupEventListeners() {
+                document.getElementById('showRegister').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showRegisterForm();
+                });
+
+                document.getElementById('showLogin').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showLoginForm();
+                });
+
+                document.getElementById('loginBtn').addEventListener('click', () => this.login());
+                document.getElementById('registerBtn').addEventListener('click', () => this.register());
+
+                document.getElementById('themeToggle').addEventListener('click', () => this.toggleTheme());
+                document.getElementById('languageSelect').addEventListener('change', (e) => this.changeLanguage(e.target.value));
+
+                // Enter key support
+                document.getElementById('loginPassword').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.login();
+                });
+
+                document.getElementById('registerConfirmPassword').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.register();
+                });
+            }
+
+            showRegisterForm() {
+                document.getElementById('loginForm').classList.add('hidden');
+                document.getElementById('registerForm').classList.remove('hidden');
+                this.clearStatus();
+            }
+
+            showLoginForm() {
+                document.getElementById('registerForm').classList.add('hidden');
+                document.getElementById('loginForm').classList.remove('hidden');
+                this.clearStatus();
+            }
+
+            async login() {
+                const username = document.getElementById('loginUsername').value.trim();
+                const password = document.getElementById('loginPassword').value;
+
+                if (!username || !password) {
+                    this.showStatus('Please fill in all fields', 'error');
+                    return;
+                }
+
+                try {
+                    // Simple authentication (in production, this would be a real API call)
+                    const users = this.getUsers();
+                    const user = users.find(u => u.username === username && u.password === password);
+
+                    if (user) {
+                        this.setCurrentUser(user);
+                        this.showStatus('Login successful! Redirecting...', 'success');
+                        
+                        setTimeout(() => {
+                            window.location.href = 'realtime_marketplace.html';
+                        }, 1500);
+                    } else {
+                        this.showStatus('Invalid username or password', 'error');
+                    }
+                } catch (error) {
+                    this.showStatus('Login failed. Please try again.', 'error');
+                }
+            }
+
+            async register() {
+                const username = document.getElementById('registerUsername').value.trim();
+                const email = document.getElementById('registerEmail').value.trim();
+                const password = document.getElementById('registerPassword').value;
+                const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+                if (!username || !email || !password || !confirmPassword) {
+                    this.showStatus('Please fill in all fields', 'error');
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    this.showStatus('Passwords do not match', 'error');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    this.showStatus('Password must be at least 6 characters', 'error');
+                    return;
+                }
+
+                try {
+                    // Simple registration (in production, this would be a real API call)
+                    const users = this.getUsers();
+                    
+                    if (users.find(u => u.username === username)) {
+                        this.showStatus('Username already exists', 'error');
+                        return;
+                    }
+
+                    if (users.find(u => u.email === email)) {
+                        this.showStatus('Email already registered', 'error');
+                        return;
+                    }
+
+                    const newUser = {
+                        id: Date.now().toString(),
+                        username,
+                        email,
+                        password, // In production, this should be hashed
+                        createdAt: new Date().toISOString()
+                    };
+
+                    users.push(newUser);
+                    this.saveUsers(users);
+
+                    this.showStatus('Registration successful! You can now login.', 'success');
+                    
+                    setTimeout(() => {
+                        this.showLoginForm();
+                        this.clearFormFields();
+                    }, 2000);
+
+                } catch (error) {
+                    this.showStatus('Registration failed. Please try again.', 'error');
+                }
+            }
+
+            getUsers() {
+                try {
+                    const usersJson = localStorage.getItem('marketplace_users');
+                    return usersJson ? JSON.parse(usersJson) : [];
+                } catch (error) {
+                    return [];
+                }
+            }
+
+            saveUsers(users) {
+                localStorage.setItem('marketplace_users', JSON.stringify(users));
+            }
+
+            setCurrentUser(user) {
+                this.currentUser = user;
+                localStorage.setItem('marketplace_current_user', JSON.stringify(user));
+                // Update the user ID in the tracking system
+                localStorage.setItem('marketplace_user_id', user.id);
+            }
+
+            checkExistingUser() {
+                try {
+                    const currentUser = localStorage.getItem('marketplace_current_user');
+                    if (currentUser) {
+                        this.currentUser = JSON.parse(currentUser);
+                        // Auto-redirect to marketplace if user is logged in
+                        setTimeout(() => {
+                            window.location.href = 'realtime_marketplace.html';
+                        }, 1000);
+                    }
+                } catch (error) {
+                    // Ignore parsing errors
+                }
+            }
+
+            clearFormFields() {
+                document.getElementById('loginUsername').value = '';
+                document.getElementById('loginPassword').value = '';
+                document.getElementById('registerUsername').value = '';
+                document.getElementById('registerEmail').value = '';
+                document.getElementById('registerPassword').value = '';
+                document.getElementById('registerConfirmPassword').value = '';
+            }
+
+            showStatus(message, type) {
+                const statusEl = document.getElementById('statusMessage');
+                statusEl.textContent = message;
+                statusEl.className = `mt-4 p-3 rounded-lg ${
+                    type === 'success' 
+                        ? 'bg-green-100 text-green-800 border border-green-200' 
+                        : 'bg-red-100 text-red-800 border border-red-200'
+                }`;
+                statusEl.classList.remove('hidden');
+            }
+
+            clearStatus() {
+                document.getElementById('statusMessage').classList.add('hidden');
+            }
+
+            // Theme management
+            applyTheme() {
+                const theme = localStorage.getItem('marketplace_theme') || 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+                this.updateThemeButton(theme);
+            }
+
+            toggleTheme() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('marketplace_theme', newTheme);
+                this.updateThemeButton(newTheme);
+            }
+
+            updateThemeButton(theme) {
+                const button = document.getElementById('themeToggle');
+                const icon = button.querySelector('i');
+                const text = document.getElementById('themeText');
+                
+                if (theme === 'dark') {
+                    icon.className = 'fas fa-sun';
+                    text.textContent = 'Light Mode';
+                } else {
+                    icon.className = 'fas fa-moon';
+                    text.textContent = 'Dark Mode';
+                }
+            }
+
+            // Language management
+            setupLanguage() {
+                const savedLang = localStorage.getItem('marketplace_language') || 'en';
+                document.getElementById('languageSelect').value = savedLang;
+                this.changeLanguage(savedLang);
+            }
+
+            changeLanguage(lang) {
+                localStorage.setItem('marketplace_language', lang);
+                if (typeof window.i18n !== 'undefined') {
+                    window.i18n.setLanguage(lang);
+                    this.updateTexts();
+                }
+            }
+
+            updateTexts() {
+                // Update all elements with data-i18n attribute
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (typeof window.i18n !== 'undefined' && window.i18n.t) {
+                        const translation = window.i18n.t(key);
+                        if (translation !== key) {
+                            el.textContent = translation;
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize auth system when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new AuthSystem();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Marketplace - Complete Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            background: white;
+        }
+        .test-result {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+        .success { background: #d1fae5; color: #065f46; }
+        .error { background: #fee2e2; color: #991b1b; }
+        .info { background: #dbeafe; color: #1e40af; }
+    </style>
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8">Enhanced Marketplace - Complete Feature Test</h1>
+        
+        <!-- Settings Panel -->
+        <div class="test-section">
+            <h2 class="text-xl font-semibold mb-4">🎛️ Settings Control Panel</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Language</label>
+                    <select id="language-select" class="w-full px-3 py-2 border rounded">
+                        <option value="en">English</option>
+                        <option value="ru">Русский</option>
+                        <option value="az">Azərbaycanca</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Currency</label>
+                    <select id="currency-select" class="w-full px-3 py-2 border rounded">
+                        <option value="usd">USD ($)</option>
+                        <option value="azn">AZN (₼)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Theme</label>
+                    <button id="theme-toggle-btn" class="w-full px-3 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
+                        Toggle Theme
+                    </button>
+                </div>
+            </div>
+            <div id="settings-result" class="test-result info" style="display: none;"></div>
+        </div>
+        
+        <!-- AI Recommendations Test -->
+        <div class="test-section">
+            <h2 class="text-xl font-semibold mb-4">🤖 AI Recommendations Test</h2>
+            <div class="flex gap-4 mb-4">
+                <input type="text" id="user-id-input" placeholder="User ID (try 101 or 102)" value="101" class="px-3 py-2 border rounded flex-1">
+                <button id="get-recommendations-btn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    Get AI Recommendations
+                </button>
+            </div>
+            <div id="recommendations-result" class="test-result" style="display: none;"></div>
+        </div>
+        
+        <!-- Translation Test -->
+        <div class="test-section">
+            <h2 class="text-xl font-semibold mb-4">🌍 Translation Test</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">Home</div>
+                    <div id="test-home" class="font-medium">-</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">Add to Cart</div>
+                    <div id="test-add-cart" class="font-medium">-</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">Shopping Cart</div>
+                    <div id="test-cart" class="font-medium">-</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">Get Recommendations</div>
+                    <div id="test-recommend" class="font-medium">-</div>
+                </div>
+            </div>
+            <div id="translation-result" class="test-result" style="display: none;"></div>
+        </div>
+        
+        <!-- Currency Test -->
+        <div class="test-section">
+            <h2 class="text-xl font-semibold mb-4">💰 Currency Conversion Test</h2>
+            <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">Test Price</div>
+                    <div id="test-price-1" class="font-medium text-lg">-</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">Test Price 2</div>
+                    <div id="test-price-2" class="font-medium text-lg">-</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">Exchange Rate</div>
+                    <div id="test-rate" class="font-medium text-lg">-</div>
+                </div>
+            </div>
+            <div id="currency-result" class="test-result" style="display: none;"></div>
+        </div>
+        
+        <!-- Theme Test -->
+        <div class="test-section">
+            <h2 class="text-xl font-semibold mb-4">🎨 Theme Test</h2>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">Current Theme</div>
+                    <div id="current-theme" class="font-medium">-</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">Theme Applied</div>
+                    <div id="theme-applied" class="font-medium">-</div>
+                </div>
+            </div>
+            <div id="theme-result" class="test-result" style="display: none;"></div>
+        </div>
+        
+        <!-- System Status -->
+        <div class="test-section">
+            <h2 class="text-xl font-semibold mb-4">📊 System Status</h2>
+            <div id="system-status" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">Settings</div>
+                    <div id="status-settings" class="font-medium">❌</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">Language</div>
+                    <div id="status-language" class="font-medium">❌</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">Currency</div>
+                    <div id="status-currency" class="font-medium">❌</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm text-gray-600">AI Recs</div>
+                    <div id="status-ai" class="font-medium">❌</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="text-center mt-8">
+            <a href="index.html" class="inline-block px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700">
+                🛍️ Go to Main Marketplace
+            </a>
+        </div>
+    </div>
+
+    <!-- Load all scripts in correct order -->
+    <script src="data/products.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/ai_recommendations.js"></script>
+    <script src="js/tracking_simple.js"></script>
+    
+    <script>
+        // Initialize system
+        let testResults = {
+            settings: false,
+            language: false,
+            currency: false,
+            theme: false,
+            ai: false
+        };
+        
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load settings first
+            loadSettings();
+            
+            // Initialize UI
+            initializeTestUI();
+            
+            // Run status check
+            setTimeout(checkSystemStatus, 500);
+        });
+        
+        function initializeTestUI() {
+            // Set current settings in UI
+            document.getElementById('language-select').value = currentSettings.language;
+            document.getElementById('currency-select').value = currentSettings.currency;
+            
+            // Update translation samples
+            updateTranslationSamples();
+            
+            // Update currency samples
+            updateCurrencySamples();
+            
+            // Update theme display
+            updateThemeDisplay();
+        }
+        
+        function checkSystemStatus() {
+            // Check Settings
+            testResults.settings = typeof currentSettings !== 'undefined' && currentSettings.language;
+            document.getElementById('status-settings').innerHTML = testResults.settings ? '✅' : '❌';
+            
+            // Check Language
+            testResults.language = typeof t === 'function' && t('home') !== 'home';
+            document.getElementById('status-language').innerHTML = testResults.language ? '✅' : '❌';
+            
+            // Check Currency
+            testResults.currency = typeof formatPrice === 'function' && formatPrice(100).includes('₼');
+            document.getElementById('status-currency').innerHTML = testResults.currency ? '✅' : '❌';
+            
+            // Check AI
+            testResults.ai = typeof getAIRecommendations === 'function';
+            document.getElementById('status-ai').innerHTML = testResults.ai ? '✅' : '❌';
+            
+            // Check Theme
+            testResults.theme = typeof ThemeManager !== 'undefined' || typeof window.toggleTheme === 'function';
+            
+            console.log('System Status:', testResults);
+        }
+        
+        // Settings controls
+        document.getElementById('language-select').addEventListener('change', function(e) {
+            currentSettings.language = e.target.value;
+            saveSettings();
+            updateTranslationSamples();
+            showResult('settings-result', `Language changed to: ${e.target.value}`, 'success');
+        });
+        
+        document.getElementById('currency-select').addEventListener('change', function(e) {
+            currentSettings.currency = e.target.value;
+            saveSettings();
+            updateCurrencySamples();
+            showResult('currency-result', `Currency changed to: ${e.target.value.toUpperCase()}`, 'success');
+        });
+        
+        document.getElementById('theme-toggle-btn').addEventListener('click', function() {
+            if (window.toggleTheme) {
+                window.toggleTheme();
+                updateThemeDisplay();
+                showResult('theme-result', `Theme toggled to: ${window.getCurrentTheme()}`, 'success');
+            } else {
+                showResult('theme-result', 'Theme manager not available', 'error');
+            }
+        });
+        
+        // AI Recommendations
+        document.getElementById('get-recommendations-btn').addEventListener('click', async function() {
+            const userId = document.getElementById('user-id-input').value.trim() || '101';
+            const resultDiv = document.getElementById('recommendations-result');
+            
+            try {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'test-result info';
+                resultDiv.innerHTML = 'Loading recommendations...';
+                
+                const recommendations = await getAIRecommendations(userId, 3);
+                
+                if (recommendations.length > 0) {
+                    const items = recommendations.map(item => 
+                        `${item.item_name} (${formatPrice(item.price)}) - Score: ${(item.score * 100).toFixed(0)}%`
+                    ).join('<br>');
+                    
+                    resultDiv.className = 'test-result success';
+                    resultDiv.innerHTML = `✅ Found ${recommendations.length} recommendations for user ${userId}:<br><br>${items}`;
+                } else {
+                    resultDiv.className = 'test-result info';
+                    resultDiv.innerHTML = `ℹ️ No recommendations found for user ${userId}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'test-result error';
+                resultDiv.innerHTML = `❌ Error: ${error.message}`;
+            }
+        });
+        
+        function updateTranslationSamples() {
+            document.getElementById('test-home').textContent = t('home');
+            document.getElementById('test-add-cart').textContent = t('addToCart');
+            document.getElementById('test-cart').textContent = t('shoppingCart');
+            document.getElementById('test-recommend').textContent = t('getRecommendations');
+        }
+        
+        function updateCurrencySamples() {
+            const price1 = formatPrice(79.99);
+            const price2 = formatPrice(149.50);
+            const rate = currentSettings.currency === 'azn' ? '1 USD = 1.7 AZN' : '1 AZN = 0.588 USD';
+            
+            document.getElementById('test-price-1').textContent = price1;
+            document.getElementById('test-price-2').textContent = price2;
+            document.getElementById('test-rate').textContent = rate;
+        }
+        
+        function updateThemeDisplay() {
+            const currentTheme = window.getCurrentTheme ? window.getCurrentTheme() : 'light';
+            document.getElementById('current-theme').textContent = currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1);
+            document.getElementById('theme-applied').textContent = document.documentElement.getAttribute('data-theme') || 'light';
+        }
+        
+        function showResult(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = `test-result ${type}`;
+            element.innerHTML = message;
+            
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

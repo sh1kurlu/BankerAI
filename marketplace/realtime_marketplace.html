@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketPlace - AI-Powered Shopping Experience</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .product-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .ai-recommendation {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+        }
+        .realtime-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(34, 197, 94, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        .ai-dashboard-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .ai-dashboard-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        .user-info-panel {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            min-width: 250px;
+            z-index: 999;
+            display: none;
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        [data-theme="dark"] .user-info-panel {
+            background: #374151;
+            color: white;
+        }
+        .tracking-event {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid #3b82f6;
+            padding: 8px 12px;
+            margin: 4px 0;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Real-time Tracking Indicator -->
+    <div id="realtime-indicator" class="realtime-indicator pulse-animation">
+        <span class="w-2 h-2 bg-white rounded-full inline-block mr-2"></span>
+        AI Tracking Active
+    </div>
+
+    <!-- AI Dashboard FAB -->
+    <div id="ai-dashboard-fab" class="ai-dashboard-fab" title="View AI Insights">
+        🧠
+    </div>
+
+    <!-- User Info Panel -->
+    <div id="user-info-panel" class="user-info-panel">
+        <div class="flex justify-between items-center mb-3">
+            <h3 class="font-semibold text-sm">Your AI Profile</h3>
+            <button id="close-user-panel" class="text-gray-400 hover:text-gray-600">
+                ✕
+            </button>
+        </div>
+        <div id="user-info-content">
+            <div class="text-xs text-gray-600 mb-2">User ID: <span id="current-user-id" class="font-mono"></span></div>
+            <div class="text-xs text-gray-600 mb-2">Session Events: <span id="session-events" class="font-semibold">0</span></div>
+            <div class="text-xs text-gray-600 mb-3">Current Interest: <span id="current-interest" class="font-semibold">Analyzing...</span></div>
+            
+            <div id="recent-activity" class="space-y-1 max-h-32 overflow-y-auto">
+                <div class="text-xs text-gray-500">Recent activity will appear here...</div>
+            </div>
+        </div>
+        <button id="view-full-insights" class="w-full mt-3 bg-blue-600 text-white py-2 px-3 rounded text-xs hover:bg-blue-700 transition-colors">
+            View Full AI Insights
+        </button>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">MarketPlace</h1>
+                    <span class="ml-2 text-xs bg-gradient-to-r from-purple-600 to-blue-600 text-white px-2 py-1 rounded-full">AI Powered</span>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors font-medium" data-i18n="home">Home</a>
+                    <a href="category.html?category=electronics" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="electronics">Electronics</a>
+                    <a href="category.html?category=fashion" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="fashion">Fashion</a>
+                    <a href="category.html?category=books" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="books">Books</a>
+                    <a href="category.html?category=beauty" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="beauty">Beauty</a>
+                    <a href="category.html?category=sports" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="sports">Sports</a>
+                    <a href="category.html?category=home" class="text-gray-700 hover:text-blue-600 transition-colors" data-i18n="home">Home</a>
+                    <a href="ai_dashboard.html" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 font-medium">
+                        🧠 AI Dashboard
+                    </a>
+                </nav>
+
+                <!-- User Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Language Selector -->
+                    <div class="flex items-center space-x-2">
+                        <label for="language-selector" class="text-sm text-gray-600" data-i18n="selectLanguage">Language:</label>
+                        <select id="language-selector" class="px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="en">English</option>
+                            <option value="ru">Русский</option>
+                            <option value="az">Azərbaycanca</option>
+                        </select>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-2 text-gray-700 hover:text-blue-600 transition-colors bg-gray-100 rounded-lg" title="Toggle Theme">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Currency Toggle -->
+                    <button id="currency-toggle" class="px-3 py-1 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors bg-gray-100 rounded-lg" title="Toggle Currency">
+                        AZN
+                    </button>
+
+                    <!-- AI User Info -->
+                    <button id="ai-user-info-btn" class="p-2 text-gray-700 hover:text-blue-600 transition-colors bg-gray-100 rounded-lg" title="AI User Profile">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Cart -->
+                    <button id="cart-btn" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-1.5M16 6a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </button>
+
+                    <!-- Logout -->
+                    <button id="logout-btn" class="p-2 text-gray-700 hover:text-red-600 transition-colors bg-gray-100 rounded-lg" title="Logout">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section with AI -->
+        <section class="text-center mb-12">
+            <div class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-2xl p-8 mb-8">
+                <h2 class="text-4xl font-bold mb-4">🛍️ AI-Powered Shopping Experience</h2>
+                <p class="text-xl mb-6">Every click, view, and purchase helps our AI understand your preferences better</p>
+                <div class="flex justify-center space-x-4 text-sm">
+                    <div class="bg-white bg-opacity-20 rounded-lg px-4 py-2">
+                        <span class="font-semibold" id="realtime-events">0</span> Events Tracked
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg px-4 py-2">
+                        <span class="font-semibold" id="ai-confidence">Learning...</span> AI Status
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg px-4 py-2">
+                        <span class="font-semibold" id="session-duration">0s</span> Session Time
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Recommendations Section -->
+            <div id="ai-recommendations-section" class="mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center justify-center">
+                    🤖 AI Recommendations Just For You
+                    <span class="ml-2 text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full">Real-time</span>
+                </h3>
+                <div id="recommendations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="col-span-full text-center py-8">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                        <p class="text-gray-600">AI is analyzing your behavior...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center" data-i18n="featuredProducts">Featured Products</h2>
+            <div id="featured-products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Products will be populated here -->
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Shop by Category</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div class="category-card bg-white rounded-lg p-6 text-center hover:shadow-lg transition-shadow cursor-pointer" data-category="electronics">
+                    <div class="text-4xl mb-2">📱</div>
+                    <h3 class="font-semibold" data-i18n="electronics">Electronics</h3>
+                </div>
+                <div class="category-card bg-white rounded-lg p-6 text-center hover:shadow-lg transition-shadow cursor-pointer" data-category="fashion">
+                    <div class="text-4xl mb-2">👗</div>
+                    <h3 class="font-semibold" data-i18n="fashion">Fashion</h3>
+                </div>
+                <div class="category-card bg-white rounded-lg p-6 text-center hover:shadow-lg transition-shadow cursor-pointer" data-category="books">
+                    <div class="text-4xl mb-2">📚</div>
+                    <h3 class="font-semibold" data-i18n="books">Books</h3>
+                </div>
+                <div class="category-card bg-white rounded-lg p-6 text-center hover:shadow-lg transition-shadow cursor-pointer" data-category="beauty">
+                    <div class="text-4xl mb-2">💄</div>
+                    <h3 class="font-semibold" data-i18n="beauty">Beauty</h3>
+                </div>
+                <div class="category-card bg-white rounded-lg p-6 text-center hover:shadow-lg transition-shadow cursor-pointer" data-category="sports">
+                    <div class="text-4xl mb-2">⚽</div>
+                    <h3 class="font-semibold" data-i18n="sports">Sports</h3>
+                </div>
+                <div class="category-card bg-white rounded-lg p-6 text-center hover:shadow-lg transition-shadow cursor-pointer" data-category="home">
+                    <div class="text-4xl mb-2">🏠</div>
+                    <h3 class="font-semibold" data-i18n="homeGarden">Home</h3>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-md w-full max-h-96 overflow-hidden">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-semibold" data-i18n="shoppingCart">Shopping Cart</h3>
+                    <button id="close-cart" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="cart-items" class="p-6 overflow-y-auto max-h-64">
+                <p class="text-gray-500 text-center" data-i18n="emptyCart">Your cart is empty</p>
+            </div>
+            <div class="p-6 border-t">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="font-semibold" data-i18n="total">Total:</span>
+                    <span id="cart-total" class="font-bold text-xl">₼0.00</span>
+                </div>
+                <button id="checkout-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                    <span data-i18n="checkout">Checkout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data/products.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/realtime_tracking.js"></script>
+    <script src="js/ai_recommendations.js"></script>
+    <script src="js/cart.js"></script>
+    
+    <script>
+        // Real-time Marketplace with AI Integration
+        class RealtimeMarketplace {
+            constructor() {
+                this.currentUserId = null;
+                this.sessionStartTime = Date.now();
+                this.eventCount = 0;
+                this.recommendations = [];
+                this.initializeSystem();
+            }
+
+            async initializeSystem() {
+                console.log('🚀 Initializing Real-time AI Marketplace...');
+                
+                // Initialize real-time tracking
+                this.setupRealtimeTracking();
+                
+                // Setup UI event listeners
+                this.setupUIEventListeners();
+                
+                // Load initial recommendations
+                await this.loadRealtimeRecommendations();
+                
+                // Start session timer
+                this.startSessionTimer();
+                
+                // Setup periodic updates
+                this.setupPeriodicUpdates();
+                
+                console.log('✅ Real-time AI Marketplace initialized successfully!');
+            }
+
+            setupRealtimeTracking() {
+                // Get current user info from tracker
+                const userInfo = window.getCurrentUserInfo();
+                this.currentUserId = userInfo.userId;
+                
+                // Update UI with user info
+                document.getElementById('current-user-id').textContent = this.currentUserId.substring(0, 8) + '...';
+                
+                console.log('📊 Real-time tracking active for user:', this.currentUserId);
+            }
+
+            setupUIEventListeners() {
+                // Product interactions
+                document.addEventListener('click', (e) => {
+                    this.handleProductInteraction(e);
+                });
+
+                // Category interactions
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        const category = e.currentTarget.dataset.category;
+                        this.trackCategoryInteraction(category);
+                    });
+                });
+
+                // AI Dashboard FAB
+                document.getElementById('ai-dashboard-fab').addEventListener('click', () => {
+                    this.openAIDashboard();
+                });
+
+                // User info panel
+                document.getElementById('ai-user-info-btn').addEventListener('click', () => {
+                    this.toggleUserInfoPanel();
+                });
+
+                document.getElementById('close-user-panel').addEventListener('click', () => {
+                    this.hideUserInfoPanel();
+                });
+
+                document.getElementById('view-full-insights').addEventListener('click', () => {
+                    this.openAIDashboard();
+                });
+
+                // Cart interactions
+                document.getElementById('cart-btn').addEventListener('click', () => {
+                    this.trackCartInteraction();
+                });
+
+                // Logout functionality
+                document.getElementById('logout-btn').addEventListener('click', () => {
+                    this.logout();
+                });
+
+                // Search tracking (if search exists)
+                this.setupSearchTracking();
+            }
+
+            handleProductInteraction(e) {
+                const productElement = e.target.closest('[data-product-id]');
+                if (productElement) {
+                    const productId = productElement.dataset.productId;
+                    const product = this.findProductById(productId);
+                    
+                    if (product) {
+                        // Determine interaction type
+                        if (e.target.closest('.add-to-cart-btn')) {
+                            this.trackAddToCart(product);
+                        } else if (e.target.closest('.view-details-btn')) {
+                            this.trackProductView(product, 'details');
+                        } else {
+                            this.trackProductClick(product);
+                        }
+                        
+                        this.incrementEventCount();
+                        this.updateRealtimeDisplay();
+                    }
+                }
+            }
+
+            trackProductView(product, source = 'click') {
+                window.trackProductViewAuto(product, { source });
+                this.addActivityLog(`👁️ Viewed ${product.item_name}`);
+            }
+
+            trackProductClick(product) {
+                window.trackProductClickAuto(product, 'auto_detected', 'product_grid');
+                this.addActivityLog(`🖱️ Clicked ${product.item_name}`);
+            }
+
+            trackAddToCart(product) {
+                window.trackAddToCartAuto(product, 1, { source: 'product_card' });
+                this.addActivityLog(`🛒 Added ${product.item_name} to cart`);
+            }
+
+            trackCategoryInteraction(category) {
+                window.trackCategoryViewAuto(category, 0, { interaction_type: 'click' });
+                this.addActivityLog(`📂 Viewed ${category} category`);
+                this.incrementEventCount();
+                this.updateRealtimeDisplay();
+            }
+
+            trackCartInteraction() {
+                window.trackAddToCartAuto({ item_id: 'cart_view', item_name: 'Cart View', category: 'system' }, 0, { interaction_type: 'cart_open' });
+                this.addActivityLog(`🛍️ Opened shopping cart`);
+            }
+
+            trackCategoryView(category) {
+                window.trackCategoryViewAuto(category, 0, { source: 'navigation' });
+            }
+
+            setupSearchTracking() {
+                // This would track search interactions if search functionality exists
+                const searchInput = document.querySelector('input[type="search"]');
+                if (searchInput) {
+                    searchInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            const query = e.target.value.trim();
+                            if (query) {
+                                window.trackSearchAuto(query, 0);
+                                this.addActivityLog(`🔍 Searched: "${query}"`);
+                            }
+                        }
+                    });
+                }
+            }
+
+            async loadRealtimeRecommendations() {
+                try {
+                    const recommendations = await getAIRecommendations(this.currentUserId, 4);
+                    this.recommendations = recommendations;
+                    this.renderRecommendations(recommendations);
+                    
+                    // Track recommendation views
+                    recommendations.forEach(rec => {
+                        window.trackRecommendationInteractionAuto(rec, 'view');
+                    });
+                    
+                } catch (error) {
+                    console.log('Using fallback recommendations');
+                    const fallbackRecs = this.generateFallbackRecommendations(4);
+                    this.recommendations = fallbackRecs;
+                    this.renderRecommendations(fallbackRecs);
+                }
+            }
+
+            generateFallbackRecommendations(k) {
+                const shuffled = [...products].sort(() => 0.5 - Math.random());
+                return shuffled.slice(0, k).map((product, index) => ({
+                    item_id: product.item_id,
+                    item_name: product.item_name,
+                    category: product.category,
+                    score: 0.7 + (Math.random() * 0.3),
+                    reason: "AI is still learning your preferences",
+                    behavioral_justification: "Fallback recommendation while AI analyzes your behavior",
+                    similarity_score: 0.5,
+                    collaborative_reasoning: "Popular items for new users",
+                    confidence: "Learning",
+                    trend_alignment: "General trending"
+                }));
+            }
+
+            renderRecommendations(recommendations) {
+                const container = document.getElementById('recommendations-grid');
+                container.innerHTML = '';
+
+                recommendations.forEach((rec, index) => {
+                    const product = this.findProductById(rec.item_id);
+                    if (product) {
+                        const card = this.createRecommendationCard(product, rec, index);
+                        container.appendChild(card);
+                    }
+                });
+            }
+
+            createRecommendationCard(product, recommendation, index) {
+                const card = document.createElement('div');
+                card.className = 'ai-recommendation p-4 relative';
+                card.dataset.productId = product.item_id;
+                card.dataset.recommendationId = `rec_${index}`;
+                
+                card.innerHTML = `
+                    <div class="absolute top-2 right-2 bg-white bg-opacity-20 rounded-full px-2 py-1 text-xs font-semibold">
+                        ${(recommendation.score * 100).toFixed(0)}% Match
+                    </div>
+                    <img src="${product.image}" alt="${product.item_name}" class="w-full h-32 object-cover rounded-lg mb-3">
+                    <h3 class="font-bold text-lg mb-2">${product.item_name}</h3>
+                    <p class="text-sm opacity-90 mb-2">${product.category}</p>
+                    <div class="text-xl font-bold mb-3">${formatPrice(product.price)}</div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-2 mb-3 text-xs">
+                        <strong>Why recommended:</strong> ${recommendation.reason}
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="view-details-btn flex-1 bg-white bg-opacity-20 hover:bg-opacity-30 text-white py-2 px-3 rounded text-sm font-semibold transition-colors">
+                            View Details
+                        </button>
+                        <button class="add-to-cart-btn flex-1 bg-white text-purple-600 hover:bg-gray-100 py-2 px-3 rounded text-sm font-semibold transition-colors">
+                            Add to Cart
+                        </button>
+                    </div>
+                `;
+                
+                return card;
+            }
+
+            renderFeaturedProducts() {
+                const container = document.getElementById('featured-products-grid');
+                container.innerHTML = '';
+
+                products.slice(0, 8).forEach(product => {
+                    const card = this.createProductCard(product);
+                    container.appendChild(card);
+                });
+            }
+
+            createProductCard(product) {
+                const card = document.createElement('div');
+                card.className = 'product-card bg-white rounded-lg shadow-md overflow-hidden';
+                card.dataset.productId = product.item_id;
+                
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.item_name}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-2">${product.item_name}</h3>
+                        <p class="text-gray-600 text-sm mb-2">${product.category}</p>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xl font-bold text-blue-600">${formatPrice(product.price)}</span>
+                            <span class="text-sm text-gray-500">⭐ ${product.rating || '4.5'}</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="view-details-btn flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-3 rounded text-sm font-medium transition-colors">
+                                View
+                            </button>
+                            <button class="add-to-cart-btn flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-3 rounded text-sm font-medium transition-colors">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                return card;
+            }
+
+            // Utility functions
+            findProductById(productId) {
+                return products.find(p => p.item_id === productId);
+            }
+
+            incrementEventCount() {
+                this.eventCount++;
+                document.getElementById('session-events').textContent = this.eventCount;
+            }
+
+            updateRealtimeDisplay() {
+                document.getElementById('realtime-events').textContent = this.eventCount;
+                
+                // Update AI confidence based on event count
+                let confidence = 'Learning...';
+                if (this.eventCount > 20) confidence = 'High Confidence';
+                else if (this.eventCount > 10) confidence = 'Medium Confidence';
+                else if (this.eventCount > 5) confidence = 'Building Profile';
+                
+                document.getElementById('ai-confidence').textContent = confidence;
+            }
+
+            addActivityLog(message) {
+                const container = document.getElementById('recent-activity');
+                const logEntry = document.createElement('div');
+                logEntry.className = 'tracking-event';
+                logEntry.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span>${message}</span>
+                        <span class="text-xs opacity-75">${new Date().toLocaleTimeString()}</span>
+                    </div>
+                `;
+                
+                // Add at top and remove old entries
+                container.insertBefore(logEntry, container.firstChild);
+                
+                // Keep only last 5 entries
+                while (container.children.length > 5) {
+                    container.removeChild(container.lastChild);
+                }
+            }
+
+            startSessionTimer() {
+                setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - this.sessionStartTime) / 1000);
+                    document.getElementById('session-duration').textContent = `${elapsed}s`;
+                }, 1000);
+            }
+
+            async setupPeriodicUpdates() {
+                // Update recommendations every 30 seconds based on new behavior
+                setInterval(async () => {
+                    if (this.eventCount > 0) {
+                        await this.loadRealtimeRecommendations();
+                        this.addActivityLog('🔄 AI recommendations updated based on your behavior');
+                    }
+                }, 30000);
+
+                // Update user insights every 15 seconds
+                setInterval(async () => {
+                    await this.updateUserInsights();
+                }, 15000);
+            }
+
+            async updateUserInsights() {
+                try {
+                    const insights = await window.getRealtimeInsights();
+                    if (insights) {
+                        document.getElementById('current-interest').textContent = insights.current_interest;
+                        
+                        if (insights.recent_categories.length > 0) {
+                            document.getElementById('current-interest').textContent += ` (${insights.recent_categories.join(', ')})`;
+                        }
+                    }
+                } catch (error) {
+                    console.log('Could not update user insights');
+                }
+            }
+
+            // Panel controls
+            toggleUserInfoPanel() {
+                const panel = document.getElementById('user-info-panel');
+                if (panel.style.display === 'none' || !panel.style.display) {
+                    this.showUserInfoPanel();
+                } else {
+                    this.hideUserInfoPanel();
+                }
+            }
+
+            showUserInfoPanel() {
+                document.getElementById('user-info-panel').style.display = 'block';
+            }
+
+            hideUserInfoPanel() {
+                document.getElementById('user-info-panel').style.display = 'none';
+            }
+
+            openAIDashboard() {
+                // Open AI dashboard in new tab with current user
+                const dashboardUrl = `ai_dashboard.html?user_id=${encodeURIComponent(this.currentUserId)}`;
+                window.open(dashboardUrl, '_blank');
+            }
+
+            logout() {
+                // Clear user data and redirect to auth page
+                localStorage.removeItem('marketplace_current_user');
+                localStorage.removeItem('marketplace_user_id');
+                localStorage.removeItem('marketplace_cart');
+                
+                // Track logout event
+                if (window.tracker) {
+                    window.tracker.trackEvent('logout', {
+                        user_id: this.currentUserId,
+                        timestamp: new Date().toISOString(),
+                        page_url: window.location.href,
+                        session_id: window.tracker.sessionId
+                    });
+                }
+                
+                // Redirect to auth page
+                window.location.href = 'auth.html';
+            }
+        }
+
+        // Initialize the real-time marketplace when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is authenticated
+            const currentUser = localStorage.getItem('marketplace_current_user');
+            if (!currentUser) {
+                // Redirect to auth page if not logged in
+                window.location.href = 'auth.html';
+                return;
+            }
+            
+            // Initialize theme
+            if (typeof ThemeManager !== 'undefined') {
+                window.themeManager = new ThemeManager();
+            }
+            
+            // Initialize marketplace
+            window.realtimeMarketplace = new RealtimeMarketplace();
+            
+            // Render featured products
+            window.realtimeMarketplace.renderFeaturedProducts();
+            
+            console.log('🎯 Real-time AI Marketplace is fully operational!');
+        });
+    </script>
+</body>
+</html>

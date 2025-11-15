@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Marketplace Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8">Enhanced Marketplace Test</h1>
+        
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Test Enhanced Features</h2>
+            
+            <!-- Test AI Recommendations -->
+            <div class="mb-4">
+                <h3 class="text-lg font-medium mb-2">AI Recommendations Test</h3>
+                <input type="text" id="test-user-id" placeholder="Enter user ID (try 101 or 102)" class="px-3 py-2 border rounded mb-2">
+                <button id="test-ai-btn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Test AI Recommendations
+                </button>
+                <div id="ai-test-result" class="mt-2 text-sm text-gray-600"></div>
+            </div>
+            
+            <!-- Test Language Switching -->
+            <div class="mb-4">
+                <h3 class="text-lg font-medium mb-2">Language Test</h3>
+                <select id="test-language" class="px-3 py-2 border rounded mb-2">
+                    <option value="en">English</option>
+                    <option value="ru">Russian</option>
+                    <option value="az">Azerbaijani</option>
+                </select>
+                <div id="language-test-result" class="mt-2 text-sm text-gray-600"></div>
+            </div>
+            
+            <!-- Test Currency Conversion -->
+            <div class="mb-4">
+                <h3 class="text-lg font-medium mb-2">Currency Test</h3>
+                <button id="test-currency-btn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                    Test Currency (USD/AZN)
+                </button>
+                <div id="currency-test-result" class="mt-2 text-sm text-gray-600"></div>
+            </div>
+            
+            <!-- Test Theme Toggle -->
+            <div class="mb-4">
+                <h3 class="text-lg font-medium mb-2">Theme Test</h3>
+                <button id="test-theme-btn" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+                    Test Theme Toggle
+                </button>
+                <div id="theme-test-result" class="mt-2 text-sm text-gray-600"></div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="text-center">
+            <a href="index.html" class="text-blue-600 hover:text-blue-800">Go to Main Marketplace</a>
+        </div>
+    </div>
+
+    <!-- Load scripts in order -->
+    <script src="data/products.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/ai_recommendations.js"></script>
+    <script src="js/tracking_simple.js"></script>
+    
+    <script>
+        // Test AI Recommendations
+        document.getElementById('test-ai-btn').addEventListener('click', async function() {
+            const userId = document.getElementById('test-user-id').value.trim() || '101';
+            const result = document.getElementById('ai-test-result');
+            
+            try {
+                const recommendations = await getAIRecommendations(userId, 2);
+                result.innerHTML = `✅ AI recommendations loaded: ${recommendations.length} items<br>
+                    First item: ${recommendations[0]?.item_name} (${formatPrice(recommendations[0]?.price)})<br>
+                    Score: ${(recommendations[0]?.score * 100).toFixed(0)}%`;
+            } catch (error) {
+                result.innerHTML = `❌ AI error: ${error.message}`;
+            }
+        });
+        
+        // Test Language Switching
+        document.getElementById('test-language').addEventListener('change', function(e) {
+            const result = document.getElementById('language-test-result');
+            currentSettings.language = e.target.value;
+            saveSettings();
+            
+            result.innerHTML = `✅ Language changed to: ${e.target.value}<br>
+                Sample text: ${t('getRecommendations')} / ${t('addToCart')} / ${t('shoppingCart')}`;
+        });
+        
+        // Test Currency Conversion
+        document.getElementById('test-currency-btn').addEventListener('click', function() {
+            const result = document.getElementById('currency-test-result');
+            
+            // Toggle currency
+            currentSettings.currency = currentSettings.currency === 'usd' ? 'azn' : 'usd';
+            saveSettings();
+            
+            const testPrice = 79.99;
+            const formattedPrice = formatPrice(testPrice);
+            
+            result.innerHTML = `✅ Currency toggled to: ${currentSettings.currency.toUpperCase()}<br>
+                Test price: ${formattedPrice} (was $${testPrice})<br>
+                Exchange rate: 1 USD = 1.7 AZN`;
+        });
+        
+        // Test Theme Toggle
+        document.getElementById('test-theme-btn').addEventListener('click', function() {
+            const result = document.getElementById('theme-test-result');
+            
+            if (window.toggleTheme) {
+                window.toggleTheme();
+                result.innerHTML = `✅ Theme toggled to: ${window.getCurrentTheme()} mode`;
+            } else {
+                result.innerHTML = `❌ Theme manager not available`;
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial test values
+            document.getElementById('test-language').value = currentSettings.language;
+        });
+    </script>
+</body>
+</html>

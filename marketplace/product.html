@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail - MarketPlace</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Header (same as other pages) -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-blue-600">MarketPlace</h1>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Home</a>
+                    <a href="category.html?category=electronics" class="text-gray-700 hover:text-blue-600 transition-colors">Electronics</a>
+                    <a href="category.html?category=fashion" class="text-gray-700 hover:text-blue-600 transition-colors">Fashion</a>
+                    <a href="category.html?category=books" class="text-gray-700 hover:text-blue-600 transition-colors">Books</a>
+                    <a href="category.html?category=beauty" class="text-gray-700 hover:text-blue-600 transition-colors">Beauty</a>
+                    <a href="category.html?category=sports" class="text-gray-700 hover:text-blue-600 transition-colors">Sports</a>
+                    <a href="category.html?category=home" class="text-gray-700 hover:text-blue-600 transition-colors">Home</a>
+                </nav>
+
+                <!-- User Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- User ID Input -->
+                    <div class="flex items-center space-x-2">
+                        <label for="user-id" class="text-sm text-gray-600">User:</label>
+                        <input type="text" id="user-id" placeholder="Enter user ID" class="px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Cart -->
+                    <button id="cart-btn" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-1.5M16 6a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="bg-gray-100 py-3">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center space-x-2 text-sm">
+                <a href="index.html" class="text-blue-600 hover:text-blue-800">Home</a>
+                <span class="text-gray-500">/</span>
+                <a id="category-breadcrumb" href="#" class="text-blue-600 hover:text-blue-800"></a>
+                <span class="text-gray-500">/</span>
+                <span id="product-breadcrumb" class="text-gray-700 font-medium"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Product Detail Section -->
+        <div id="product-detail" class="product-detail mb-12">
+            <!-- Product content will be populated here -->
+        </div>
+
+        <!-- AI Recommendations Section -->
+        <section id="recommendations-section" class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Recommended For You</h3>
+                <button id="get-recommendations-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                    Get AI Recommendations
+                </button>
+            </div>
+            <div id="recommendations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Recommendations will be populated here -->
+            </div>
+        </section>
+
+        <!-- Related Products Section -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold mb-6 text-gray-800">Related Products</h3>
+            <div id="related-products" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Related products will be populated here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Shopping Cart</h3>
+                <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="cart-items" class="space-y-4 mb-4">
+                <!-- Cart items will be populated here -->
+            </div>
+            <div class="border-t pt-4">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="font-semibold">Total: $<span id="cart-total">0.00</span></span>
+                </div>
+                <button id="checkout-btn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 MarketPlace. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="data/products.js"></script>
+    <script src="js/tracking.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        // Product detail page specific JavaScript
+        
+        let currentProduct = null;
+        let currentCategory = '';
+
+        // Initialize product detail page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeProductDetail();
+        });
+
+        function initializeProductDetail() {
+            // Get product ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('item_id');
+            
+            if (!productId) {
+                showError('No product ID provided');
+                return;
+            }
+            
+            // Get product data
+            currentProduct = getProductById(productId);
+            
+            if (!currentProduct) {
+                showError('Product not found');
+                return;
+            }
+            
+            currentCategory = currentProduct.category;
+            
+            // Track product view
+            if (typeof trackProductView === 'function') {
+                trackProductView(currentProduct);
+            }
+            
+            // Update page content
+            updateProductDetail();
+            updateBreadcrumb();
+            
+            // Load related products
+            loadRelatedProducts();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Setup AI recommendations
+            setupAIRecommendations();
+        }
+
+        function updateProductDetail() {
+            const productDetail = document.getElementById('product-detail');
+            if (!productDetail || !currentProduct) return;
+
+            productDetail.innerHTML = `
+                <div class="product-image-section">
+                    <img src="${currentProduct.image}" alt="${currentProduct.item_name}" 
+                         class="product-detail-image" id="main-product-image">
+                    <div class="image-thumbnails mt-4 flex space-x-2">
+                        <img src="${currentProduct.image}" alt="${currentProduct.item_name}" 
+                             class="thumbnail active" onclick="updateMainImage(this.src)">
+                        <img src="https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(currentProduct.item_name + ' alternate view 1')}&image_size=square" 
+                             alt="${currentProduct.item_name} view 1" class="thumbnail" onclick="updateMainImage(this.src)">
+                        <img src="https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(currentProduct.item_name + ' alternate view 2')}&image_size=square" 
+                             alt="${currentProduct.item_name} view 2" class="thumbnail" onclick="updateMainImage(this.src)">
+                    </div>
+                </div>
+                
+                <div class="product-info-section">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-4">${currentProduct.item_name}</h1>
+                    <p class="text-lg text-gray-600 mb-4">${currentProduct.brand}</p>
+                    <div class="price-section mb-6">
+                        <span class="text-4xl font-bold text-blue-600">$${currentProduct.price.toFixed(2)}</span>
+                    </div>
+                    <div class="rating-section mb-6">
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                ${generateStars(4.5)}
+                            </div>
+                            <span class="ml-2 text-gray-600">4.5 (124 reviews)</span>
+                        </div>
+                    </div>
+                    <div class="description-section mb-8">
+                        <h3 class="text-lg font-semibold mb-3">Description</h3>
+                        <p class="text-gray-700 leading-relaxed">${currentProduct.description}</p>
+                    </div>
+                    <div class="actions-section mb-8">
+                        <div class="quantity-selector mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
+                            <div class="flex items-center space-x-3">
+                                <button onclick="updateQuantity(-1)" class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                    -
+                                </button>
+                                <span id="quantity-display" class="text-lg font-semibold w-8 text-center">1</span>
+                                <button onclick="updateQuantity(1)" class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4">
+                            <button onclick="addToCartWithQuantity()" class="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                                Add to Cart
+                            </button>
+                            <button onclick="buyNow()" class="flex-1 bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors font-semibold">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                    <div class="features-section">
+                        <h3 class="text-lg font-semibold mb-3">Features</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Free shipping on orders over $50
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                30-day return policy
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Secure payment processing
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Customer support available 24/7
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            let stars = '';
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/><path fill-rule="evenodd" d="M10 1.044l-.707.707A1 1 0 008.293 3.293l.707.707L7.293 6.707A1 1 0 006 7.293l1.293 1.293.707.707L5.293 11.293A1 1 0 004 12.293l2.293 2.293.707.707L4.293 17.293A1 1 0 005 18.293l3.293-3.293.707-.707 3.293 3.293a1 1 0 001.414-1.414L12.707 13.414l.707-.707L16.707 9.414A1 1 0 0018 8.293l-2.293-2.293-.707-.707L15.293 4.707A1 1 0 0014 3.293l-2.293 2.293-.707.707L10 1.044z" clip-rule="evenodd"/></svg>';
+            }
+            
+            return stars;
+        }
+
+        function updateBreadcrumb() {
+            const categoryBreadcrumb = document.getElementById('category-breadcrumb');
+            const productBreadcrumb = document.getElementById('product-breadcrumb');
+            
+            if (categoryBreadcrumb && currentCategory) {
+                const categoryName = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
+                categoryBreadcrumb.textContent = categoryName;
+                categoryBreadcrumb.href = `category.html?category=${currentCategory}`;
+            }
+            
+            if (productBreadcrumb && currentProduct) {
+                productBreadcrumb.textContent = currentProduct.item_name;
+            }
+        }
+
+        function loadRelatedProducts() {
+            const relatedContainer = document.getElementById('related-products');
+            if (!relatedContainer || !currentProduct) return;
+
+            // Get products from same category, excluding current product
+            const relatedProducts = getProductsByCategory(currentProduct.category)
+                .filter(product => product.item_id !== currentProduct.item_id)
+                .slice(0, 4);
+
+            if (relatedProducts.length === 0) {
+                relatedContainer.innerHTML = '<p class="text-gray-500 text-center col-span-full">No related products found.</p>';
+                return;
+            }
+
+            relatedContainer.innerHTML = relatedProducts.map(product => `
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 fade-in" 
+                     data-item-id="${product.item_id}">
+                    <div class="relative overflow-hidden">
+                        <img src="${product.image}" alt="${product.item_name}" class="product-image w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
+                    </div>
+                    <div class="product-info p-4">
+                        <h3 class="product-title text-lg font-semibold text-gray-800 mb-2 line-clamp-2">${product.item_name}</h3>
+                        <p class="product-brand text-sm text-gray-600 mb-2">${product.brand}</p>
+                        <p class="product-description text-sm text-gray-600 mb-3 line-clamp-2">${product.description}</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="product-price text-xl font-bold text-blue-600">$${product.price.toFixed(2)}</span>
+                            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">${product.category}</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="add-to-cart-btn flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium" 
+                                    data-item-id="${product.item_id}">
+                                Add to Cart
+                            </button>
+                            <button class="view-details-btn bg-gray-100 text-gray-700 py-2 px-3 rounded-lg hover:bg-gray-200 transition-colors text-sm" 
+                                    data-item-id="${product.item_id}">
+                                View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function setupEventListeners() {
+            // Product image thumbnails
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('thumbnail')) {
+                    document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+                    e.target.classList.add('active');
+                }
+            });
+
+            // Product interactions
+            setupProductInteractions();
+        }
+
+        function setupProductInteractions() {
+            // Product card clicks (for related products)
+            document.addEventListener('click', function(e) {
+                const productCard = e.target.closest('.product-card');
+                const viewDetailsBtn = e.target.closest('.view-details-btn');
+                
+                if (productCard && !e.target.closest('.add-to-cart-btn')) {
+                    const itemId = productCard.dataset.itemId;
+                    if (itemId) {
+                        const product = getProductById(itemId);
+                        if (product) {
+                            // Track product click
+                            if (typeof trackProductClick === 'function') {
+                                trackProductClick(product);
+                            }
+                            
+                            // Navigate to product detail page
+                            window.location.href = `product.html?item_id=${itemId}`;
+                        }
+                    }
+                }
+                
+                if (viewDetailsBtn) {
+                    const itemId = viewDetailsBtn.dataset.itemId;
+                    if (itemId) {
+                        const product = getProductById(itemId);
+                        if (product) {
+                            // Track product click
+                            if (typeof trackProductClick === 'function') {
+                                trackProductClick(product);
+                            }
+                            
+                            // Navigate to product detail page
+                            window.location.href = `product.html?item_id=${itemId}`;
+                        }
+                    }
+                }
+            });
+
+            // Track product views (when related product cards come into view)
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const itemId = entry.target.dataset.itemId;
+                        if (itemId && itemId !== currentProduct?.item_id) {
+                            const product = getProductById(itemId);
+                            if (product) {
+                                // Track product view
+                                if (typeof trackProductView === 'function') {
+                                    trackProductView(product);
+                                }
+                                
+                                // Stop observing this element
+                                observer.unobserve(entry.target);
+                            }
+                        }
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            // Observe all product cards
+            setTimeout(() => {
+                document.querySelectorAll('.product-card[data-item-id]').forEach(card => {
+                    observer.observe(card);
+                });
+            }, 1000);
+        }
+
+        function setupAIRecommendations() {
+            const recommendationsBtn = document.getElementById('get-recommendations-btn');
+            const recommendationsSection = document.getElementById('recommendations-section');
+            const recommendationsGrid = document.getElementById('recommendations-grid');
+
+            if (!recommendationsBtn || !recommendationsSection || !recommendationsGrid) return;
+
+            recommendationsBtn.addEventListener('click', async function() {
+                const userId = document.getElementById('user-id').value.trim();
+                
+                if (!userId) {
+                    alert('Please enter a user ID to get recommendations');
+                    return;
+                }
+
+                // Show loading state
+                recommendationsBtn.innerHTML = '<div class="loading-spinner mr-2"></div> Getting Recommendations...';
+                recommendationsBtn.disabled = true;
+
+                try {
+                    // Get AI recommendations
+                    const recommendations = await getAIRecommendations(userId, 4);
+                    
+                    if (recommendations && recommendations.length > 0) {
+                        renderRecommendations(recommendations);
+                        recommendationsSection.classList.remove('hidden');
+                        
+                        // Track recommendation interaction
+                        recommendations.forEach(rec => {
+                            if (typeof trackRecommendationInteraction === 'function') {
+                                trackRecommendationInteraction(rec, 'view');
+                            }
+                        });
+                    } else {
+                        recommendationsGrid.innerHTML = '<p class="text-gray-500 text-center col-span-full">No recommendations available. Try browsing some products first!</p>';
+                        recommendationsSection.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error getting recommendations:', error);
+                    recommendationsGrid.innerHTML = '<p class="text-red-500 text-center col-span-full">Error loading recommendations. Please try again.</p>';
+                    recommendationsSection.classList.remove('hidden');
+                } finally {
+                    // Reset button state
+                    recommendationsBtn.innerHTML = 'Get AI Recommendations';
+                    recommendationsBtn.disabled = false;
+                }
+            });
+        }
+
+        async function getAIRecommendations(userId, k = 4) {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/recommend', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        k: k
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data.recommendations || [];
+            } catch (error) {
+                console.error('Error fetching recommendations:', error);
+                throw error;
+            }
+        }
+
+        function renderRecommendations(recommendations) {
+            const recommendationsGrid = document.getElementById('recommendations-grid');
+            if (!recommendationsGrid) return;
+
+            recommendationsGrid.innerHTML = recommendations.map(rec => `
+                <div class="product-card recommendation-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 fade-in" 
+                     data-item-id="${rec.item_id}">
+                    <div class="recommendation-badge">AI Recommended</div>
+                    <div class="relative overflow-hidden">
+                        <img src="${rec.image || 'https://via.placeholder.com/300x200?text=Product+Image'}" 
+                             alt="${rec.item_name}" class="product-image w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
+                    </div>
+                    <div class="product-info p-4">
+                        <h3 class="product-title text-lg font-semibold text-gray-800 mb-2 line-clamp-2">${rec.item_name}</h3>
+                        <p class="product-brand text-sm text-gray-600 mb-2">${rec.brand || 'Unknown Brand'}</p>
+                        <p class="product-description text-sm text-gray-600 mb-3 line-clamp-2">${rec.description || rec.feedback || 'Recommended based on your preferences'}</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="product-price text-xl font-bold text-blue-600">$${(rec.price || 0).toFixed(2)}</span>
+                            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">${rec.category || 'General'}</span>
+                        </div>
+                        ${rec.score ? `<div class="mb-2">
+                            <div class="flex items-center">
+                                <span class="text-sm text-gray-600 mr-2">Score:</span>
+                                <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: ${(rec.score * 100)}%"></div>
+                                </div>
+                                <span class="text-sm text-gray-600 ml-2">${(rec.score * 100).toFixed(0)}%</span>
+                            </div>
+                        </div>` : ''}
+                        ${rec.feedback ? `<div class="mb-3 text-xs text-gray-600 bg-blue-50 p-2 rounded">
+                            <strong>Why recommended:</strong> ${rec.feedback}
+                        </div>` : ''}
+                        <div class="flex space-x-2">
+                            <button class="add-to-cart-btn flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium" 
+                                    data-item-id="${rec.item_id}">
+                                Add to Cart
+                            </button>
+                            <button class="view-details-btn bg-gray-100 text-gray-700 py-2 px-3 rounded-lg hover:bg-gray-200 transition-colors text-sm" 
+                                    data-item-id="${rec.item_id}">
+                                View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateMainImage(src) {
+            const mainImage = document.getElementById('main-product-image');
+            if (mainImage) {
+                mainImage.src = src;
+            }
+        }
+
+        function updateQuantity(change) {
+            const quantityDisplay = document.getElementById('quantity-display');
+            if (quantityDisplay) {
+                let currentQuantity = parseInt(quantityDisplay.textContent) || 1;
+                currentQuantity += change;
+                if (currentQuantity < 1) currentQuantity = 1;
+                if (currentQuantity > 99) currentQuantity = 99;
+                quantityDisplay.textContent = currentQuantity;
+            }
+        }
+
+        function addToCartWithQuantity() {
+            if (!currentProduct) return;
+            
+            const quantityDisplay = document.getElementById('quantity-display');
+            const quantity = parseInt(quantityDisplay?.textContent) || 1;
+            
+            if (typeof cart !== 'undefined') {
+                cart.addItem(currentProduct, quantity);
+            }
+        }
+
+        function buyNow() {
+            addToCartWithQuantity();
+            setTimeout(() => {
+                if (typeof cart !== 'undefined') {
+                    document.getElementById('cart-modal').classList.remove('hidden');
+                }
+            }, 500);
+        }
+
+        function showError(message) {
+            const productDetail = document.getElementById('product-detail');
+            if (productDetail) {
+                productDetail.innerHTML = `
+                    <div class="col-span-2 text-center py-12">
+                        <div class="text-red-500 text-6xl mb-4">⚠️</div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Error</h2>
+                        <p class="text-gray-600">${message}</p>
+                        <a href="index.html" class="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                            Back to Home
+                        </a>
+                    </div>
+                `;
+            }
+        }
+
+        // Global functions
+        window.updateMainImage = updateMainImage;
+        window.updateQuantity = updateQuantity;
+        window.addToCartWithQuantity = addToCartWithQuantity;
+        window.buyNow = buyNow;
+    </script>
+</body>
+</html>
