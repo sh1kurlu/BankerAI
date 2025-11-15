@@ -5,6 +5,8 @@ class UserTracker {
         this.apiBase = 'http://127.0.0.1:8000';
         this.userId = this.getUserId();
         this.sessionId = this.generateSessionId();
+        this.pageViewStartTime = null;
+        this.productViewStartTimes = new Map();
         this.initializeTracking();
     }
 
@@ -44,14 +46,20 @@ class UserTracker {
             // Set current user ID in input
             userIdInput.value = this.userId;
         }
+
+        // Track page view on load
+        this.trackPageView(document.title);
     }
 
-    // Track product view
+    // Track product view (with time tracking)
     trackProductView(product) {
+        const viewStartTime = Date.now();
+        this.productViewStartTimes.set(product.item_id, viewStartTime);
+
         const event = {
             user_id: this.userId,
             item_id: product.item_id,
-            event_type: "view_product",
+            event_type: "view",
             timestamp: new Date().toISOString(),
             item_name: product.item_name,
             category: product.category,
@@ -59,14 +67,33 @@ class UserTracker {
             brand: product.brand,
             session_id: this.sessionId,
             page_url: window.location.href,
-            referrer: document.referrer
+            referrer: document.referrer || null,
+            user_agent: navigator.userAgent || null,
+            screen_resolution: `${window.screen.width}x${window.screen.height}` || null,
+            viewport: `${window.innerWidth}x${window.innerHeight}` || null
         };
-
-// Make tracking functions available globally
-window.trackingFunctions = trackingFunctions;
         
         this.sendEvent(event);
         console.log('Product view tracked:', event);
+    }
+
+    // Track time spent on product page
+    trackProductViewTime(product, timeSpentSeconds) {
+        const event = {
+            user_id: this.userId,
+            item_id: product.item_id,
+            event_type: "view",
+            timestamp: new Date().toISOString(),
+            time_spent_seconds: timeSpentSeconds,
+            item_name: product.item_name,
+            category: product.category,
+            price: product.price,
+            session_id: this.sessionId,
+            page_url: window.location.href
+        };
+        
+        this.sendEvent(event);
+        console.log('Product view time tracked:', event);
     }
 
     // Track product click
@@ -74,7 +101,7 @@ window.trackingFunctions = trackingFunctions;
         const event = {
             user_id: this.userId,
             item_id: product.item_id,
-            event_type: "click_product",
+            event_type: "click",
             timestamp: new Date().toISOString(),
             item_name: product.item_name,
             category: product.category,
@@ -82,8 +109,7 @@ window.trackingFunctions = trackingFunctions;
             brand: product.brand,
             session_id: this.sessionId,
             page_url: window.location.href,
-            element: "product_card",
-            position: "grid"
+            referrer: document.referrer || null
         };
         
         this.sendEvent(event);
@@ -103,8 +129,7 @@ window.trackingFunctions = trackingFunctions;
             brand: product.brand,
             quantity: quantity,
             session_id: this.sessionId,
-            page_url: window.location.href,
-            cart_total: this.getCartTotal()
+            page_url: window.location.href
         };
         
         this.sendEvent(event);
@@ -113,26 +138,26 @@ window.trackingFunctions = trackingFunctions;
 
     // Track purchase
     trackPurchase(cartItems, totalAmount) {
-        const event = {
-            user_id: this.userId,
-            event_type: "purchase",
-            timestamp: new Date().toISOString(),
-            items: cartItems.map(item => ({
+        // Track each item in the purchase
+        cartItems.forEach(item => {
+            const event = {
+                user_id: this.userId,
                 item_id: item.item_id,
+                event_type: "purchase",
+                timestamp: new Date().toISOString(),
                 item_name: item.item_name,
                 category: item.category,
                 price: item.price,
                 brand: item.brand,
-                quantity: item.quantity
-            })),
-            total_amount: totalAmount,
-            session_id: this.sessionId,
-            page_url: window.location.href,
-            payment_method: "simulated"
-        };
+                quantity: item.quantity,
+                session_id: this.sessionId,
+                page_url: window.location.href
+            };
+            
+            this.sendEvent(event);
+        });
         
-        this.sendEvent(event);
-        console.log('Purchase tracked:', event);
+        console.log('Purchase tracked:', { items: cartItems.length, total: totalAmount });
     }
 
     // Track search
@@ -155,10 +180,9 @@ window.trackingFunctions = trackingFunctions;
     trackCategoryView(category, productCount = 0) {
         const event = {
             user_id: this.userId,
-            event_type: "view_category",
+            event_type: "view",
             timestamp: new Date().toISOString(),
             category: category,
-            product_count: productCount,
             session_id: this.sessionId,
             page_url: window.location.href
         };
@@ -169,13 +193,18 @@ window.trackingFunctions = trackingFunctions;
 
     // Track page view
     trackPageView(pageName, additionalData = {}) {
+        this.pageViewStartTime = Date.now();
+        
         const event = {
             user_id: this.userId,
-            event_type: "page_view",
+            event_type: "view",
             timestamp: new Date().toISOString(),
-            page_name: pageName,
             page_url: window.location.href,
+            referrer: document.referrer || null,
             session_id: this.sessionId,
+            user_agent: navigator.userAgent || null,
+            screen_resolution: `${window.screen.width}x${window.screen.height}` || null,
+            viewport: `${window.innerWidth}x${window.innerHeight}` || null,
             ...additionalData
         };
         
@@ -187,13 +216,13 @@ window.trackingFunctions = trackingFunctions;
     trackRecommendationInteraction(recommendation, action = "view") {
         const event = {
             user_id: this.userId,
-            event_type: "recommendation_interaction",
+            event_type: "click",
             timestamp: new Date().toISOString(),
-            recommendation_action: action,
             item_id: recommendation.item_id,
             item_name: recommendation.item_name,
             category: recommendation.category,
             price: recommendation.price,
+            recommendation_action: action,
             session_id: this.sessionId,
             page_url: window.location.href
         };
@@ -255,8 +284,8 @@ window.trackingFunctions = trackingFunctions;
 // Initialize tracker
 const userTracker = new UserTracker();
 
-// Convenience functions for tracking
-const trackingFunctions = {
+// Make tracking functions available globally
+window.trackingFunctions = {
     // Track product interactions
     viewProduct: (product) => userTracker.trackProductView(product),
     clickProduct: (product) => userTracker.trackProductClick(product),
@@ -285,3 +314,4 @@ window.trackSearch = (query, resultsCount) => userTracker.trackSearch(query, res
 window.trackCategoryView = (category, productCount) => userTracker.trackCategoryView(category, productCount);
 window.trackPageView = (pageName, additionalData) => userTracker.trackPageView(pageName, additionalData);
 window.trackRecommendationInteraction = (recommendation, action) => userTracker.trackRecommendationInteraction(recommendation, action);
+window.trackProductViewTime = (product, timeSpent) => userTracker.trackProductViewTime(product, timeSpent);

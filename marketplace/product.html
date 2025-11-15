@@ -131,11 +131,39 @@
         
         let currentProduct = null;
         let currentCategory = '';
+        let productViewStartTime = null;
+        let timeTrackingInterval = null;
 
         // Initialize product detail page
         document.addEventListener('DOMContentLoaded', function() {
             initializeProductDetail();
         });
+
+        // Track time when leaving page
+        window.addEventListener('beforeunload', function() {
+            if (currentProduct && productViewStartTime) {
+                const timeSpent = Math.floor((Date.now() - productViewStartTime) / 1000);
+                if (timeSpent > 0 && typeof trackProductViewTime === 'function') {
+                    trackProductViewTime(currentProduct, timeSpent);
+                }
+            }
+        });
+
+        // Track time periodically (every 10 seconds)
+        function startTimeTracking() {
+            if (timeTrackingInterval) {
+                clearInterval(timeTrackingInterval);
+            }
+            
+            timeTrackingInterval = setInterval(function() {
+                if (currentProduct && productViewStartTime) {
+                    const timeSpent = Math.floor((Date.now() - productViewStartTime) / 1000);
+                    if (timeSpent > 0 && timeSpent % 10 === 0 && typeof trackProductViewTime === 'function') {
+                        trackProductViewTime(currentProduct, timeSpent);
+                    }
+                }
+            }, 10000); // Every 10 seconds
+        }
 
         function initializeProductDetail() {
             // Get product ID from URL
@@ -156,6 +184,10 @@
             }
             
             currentCategory = currentProduct.category;
+            
+            // Start time tracking
+            productViewStartTime = Date.now();
+            startTimeTracking();
             
             // Track product view
             if (typeof trackProductView === 'function') {

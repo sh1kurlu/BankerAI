@@ -84,6 +84,7 @@ class TrackEventRequest(BaseModel):
     item_id: Optional[str] = None
     event_type: str
     timestamp: str
+    time_spent_seconds: Optional[float] = None
     item_name: Optional[str] = None
     category: Optional[str] = None
     price: Optional[float] = None
@@ -284,15 +285,29 @@ async def track_event(event: TrackEventRequest):
         event_dict = event.dict()
         
         # Add to global events dataframe
-        global events_df
+        global events_df, engine, feedback_engine
         new_row = pd.DataFrame([event_dict])
         events_df = pd.concat([events_df, new_row], ignore_index=True)
         
         # Update engines with new data
         ai_behavioral_engine.events_df = events_df.copy()
-        ai_behavioral_engine.events_df['timestamp'] = pd.to_datetime(ai_behavioral_engine.events_df['timestamp'])
+        ai_behavioral_engine.events_df['timestamp'] = pd.to_datetime(ai_behavioral_engine.events_df['timestamp'], format='mixed', errors='coerce')
         
-        return {"status": "success", "message": "Event tracked successfully"}
+        # Rebuild user and item profiles periodically (every 10 events to avoid performance issues)
+        # For single events, we'll update incrementally
+        if len(events_df) % 10 == 0:
+            ai_behavioral_engine.user_profiles = ai_behavioral_engine._build_user_profiles()
+            ai_behavioral_engine.item_profiles = ai_behavioral_engine._build_item_profiles()
+            
+            # Rebuild main recommender engine with updated data
+            try:
+                R, user_to_idx, idx_to_user, item_to_idx, idx_to_item = build_interaction_matrix(events_df)
+                engine = RecommenderEngine.from_dataframe(events_df, R, user_to_idx, idx_to_user, item_to_idx, idx_to_item)
+                feedback_engine = FeedbackEngine(events_df)
+            except Exception as rebuild_error:
+                print(f"Warning: Could not rebuild recommender engine: {rebuild_error}")
+        
+        return {"status": "success", "message": "Event tracked successfully", "total_events": len(events_df)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error tracking event: {str(e)}")
 
@@ -301,7 +316,7 @@ async def track_event(event: TrackEventRequest):
 async def track_events_batch(batch: TrackEventsBatchRequest):
     """Track multiple user events in batch for better performance."""
     try:
-        global events_df
+        global events_df, engine, feedback_engine
         
         # Convert batch events to DataFrame
         if batch.events:
@@ -316,6 +331,14 @@ async def track_events_batch(batch: TrackEventsBatchRequest):
             if len(batch.events) > 5:
                 ai_behavioral_engine.user_profiles = ai_behavioral_engine._build_user_profiles()
                 ai_behavioral_engine.item_profiles = ai_behavioral_engine._build_item_profiles()
+                
+                # Rebuild main recommender engine with updated data
+                try:
+                    R, user_to_idx, idx_to_user, item_to_idx, idx_to_item = build_interaction_matrix(events_df)
+                    engine = RecommenderEngine.from_dataframe(events_df, R, user_to_idx, idx_to_user, item_to_idx, idx_to_item)
+                    feedback_engine = FeedbackEngine(events_df)
+                except Exception as rebuild_error:
+                    print(f"Warning: Could not rebuild recommender engine: {rebuild_error}")
         
         return {
             "status": "success", 
