@@ -6,14 +6,17 @@ Demonstrates the analytics capabilities on sample customer data
 
 import pandas as pd
 import json
+import os
 from core.customer_analytics_engine import CustomerAnalyticsEngine
 
 def test_analytics_engine():
     """Test the analytics engine with sample customer data"""
     print("🚀 Loading customer data...")
     
-    # Load customer data
-    df = pd.read_csv('/Users/meh2/CustomerAI/BankerAI/data/customer.csv')
+    # Load customer data using relative path
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(base_dir, 'data', 'customer.csv')
+    df = pd.read_csv(data_path)
     print(f"📊 Loaded {len(df)} customer records")
     
     # Initialize analytics engine
@@ -40,7 +43,7 @@ def test_analytics_engine():
     print(json.dumps(analytics_result, indent=2, ensure_ascii=False))
     
     # Save results to file
-    output_file = '/Users/meh2/CustomerAI/BankerAI/analytics_output.json'
+    output_file = os.path.join(base_dir, 'analytics_output.json')
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(analytics_result, f, indent=2, ensure_ascii=False)
     
@@ -60,7 +63,7 @@ def test_analytics_engine():
         })
     
     # Save batch results
-    batch_file = '/Users/meh2/CustomerAI/BankerAI/batch_analytics.json'
+    batch_file = os.path.join(base_dir, 'batch_analytics.json')
     with open(batch_file, 'w', encoding='utf-8') as f:
         json.dump(batch_results, f, indent=2, ensure_ascii=False)
     

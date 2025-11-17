@@ -21,8 +21,10 @@ def initialize_engine():
     """Initialize the analytics engine with customer data"""
     global analytics_engine
     try:
-        # Load customer data
-        df = pd.read_csv('/Users/meh2/CustomerAI/BankerAI/data/customer.csv')
+        # Load customer data using relative path
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        data_path = os.path.join(base_dir, 'data', 'customer.csv')
+        df = pd.read_csv(data_path)
         analytics_engine = CustomerAnalyticsEngine(df)
         print("✅ Analytics engine initialized successfully")
         return True

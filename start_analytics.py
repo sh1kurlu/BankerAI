@@ -27,7 +27,8 @@ def serve_dashboard():
     print("🌐 Starting Dashboard Web Server...")
     try:
         # Change to the current directory and serve files
-        os.chdir('/Users/meh2/CustomerAI/BankerAI')
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        os.chdir(script_dir)
         subprocess.run([sys.executable, '-m', 'http.server', '8080'], check=True)
     except subprocess.CalledProcessError as e:
         print(f"❌ Dashboard server failed: {e}")
