@@ -341,7 +341,7 @@ def display_ai_recommendations(ai_recommendations):
 
 def main():
     # Header
-    st.markdown('<h1 class="main-header">🧠 Customer Behavior Analytics Dashboard</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">AI-based Customer Behavior Detector</h1>', unsafe_allow_html=True)
     st.markdown('<p style="text-align: center; font-size: 1.2rem; color: #666;">AI-Powered Business Intelligence for Customer Insights</p>', unsafe_allow_html=True)
     
     # Initialize engines
